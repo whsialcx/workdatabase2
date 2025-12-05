@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书封面测试</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .cover-image {
+            max-width: 200px;
+            max-height: 300px;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input, button {
+            margin: 5px;
+            padding: 8px;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>图书封面图片测试</h1>
+        
+        <div>
+            <label for="bookId">图书ID:</label>
+            <input type="number" id="bookId" value="1" min="1">
+            <button onclick="loadCover()">加载封面</button>
+        </div>
+        
+        <div>
+            <h3>当前封面:</h3>
+            <img id="bookCover" class="cover-image" alt="图书封面">
+            <p id="coverInfo"></p>
+        </div>
+        
+        <div class="upload-section">
+            <h3>上传新封面:</h3>
+            <div>
+                <input type="file" id="imageFile" accept="image/*">
+                <button onclick="uploadImage()">上传</button>
+            </div>
+            <div>
+                <label>或使用Base64:</label><br>
+                <textarea id="base64Input" rows="4" cols="50" placeholder="粘贴Base64图片数据..."></textarea><br>
+                <button onclick="uploadBase64()">上传Base64</button>
+            </div>
+        </div>
+        
+        <div id="message" class="message"></div>
+        
+        <h3>测试其他API:</h3>
+        <div>
+            <button onclick="getAllImages()">获取所有图片</button>
+            <button onclick="uploadTestImage()">上传测试图片</button>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8080/api/books/images';
+        
+        async function loadCover() {
+            const bookId = document.getElementById('bookId').value;
+            try {
+                const response = await fetch(`${API_BASE}/book/${bookId}/cover`);
+                const data = await response.json();
+                
+                if (data.success && data.coverImage) {
+                    document.getElementById('bookCover').src = data.coverImage;
+                    document.getElementById('coverInfo').innerHTML = 
+                        `图片类型: ${data.imageType}, 图片ID: ${data.imageId}`;
+                    showMessage('封面加载成功', 'success');
+                } else {
+                    document.getElementById('bookCover').src = '';
+                    document.getElementById('coverInfo').innerHTML = data.message || '无封面图片';
+                    showMessage(data.message || '无封面图片', 'info');
+                }
+            } catch (error) {
+                showMessage('加载失败: ' + error.message, 'error');
+            }
+        }
+        
+        async function uploadImage() {
+            const bookId = document.getElementById('bookId').value;
+            const fileInput = document.getElementById('imageFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showMessage('请选择图片文件', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('bookId', bookId);
+            formData.append('file', file);
+            formData.append('isCover', 'true');
+            
+            try {
+                const response = await fetch(`${API_BASE}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showMessage('上传成功: ' + result.message, 'success');
+                    loadCover(); // 重新加载封面
+                } else {
+                    showMessage('上传失败: ' + result.message, 'error');
+                }
+            } catch (error) {
+                showMessage('上传失败: ' + error.message, 'error');
+            }
+        }
+        
+        async function uploadBase64() {
+            const bookId = document.getElementById('bookId').value;
+            const base64Data = document.getElementById('base64Input').value.trim();
+            
+            if (!base64Data) {
+                showMessage('请输入Base64数据', 'error');
+                return;
+            }
+            
+            const requestData = {
+                bookId: parseInt(bookId),
+                imageData: base64Data,
+                imageType: 'png',
+                imageName: 'uploaded_from_base64.png',
+                isCover: true
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showMessage('Base64上传成功: ' + result.message, 'success');
+                    loadCover();
+                } else {
+                    showMessage('上传失败: ' + result.message, 'error');
+                }
+            } catch (error) {
+                showMessage('上传失败: ' + error.message, 'error');
+            }
+        }
+        
+        async function getAllImages() {
+            const bookId = document.getElementById('bookId').value;
+            try {
+                const response = await fetch(`${API_BASE}/book/${bookId}/all`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const images = data.images || [];
+                    const imageList = images.map(img => 
+                        `ID: ${img.id}, 名称: ${img.imageName}, 封面: ${img.isCover}`
+                    ).join('<br>');
+                    
+                    showMessage(`共${data.total}张图片:<br>${imageList}`, 'success');
+                } else {
+                    showMessage('获取失败: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('获取失败: ' + error.message, 'error');
+            }
+        }
+        
+        function uploadTestImage() {
+            // 使用1x1像素的蓝色图片作为测试
+            const testBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADBwIAMCbHYQAAAABJRU5ErkJggg==';
+            document.getElementById('base64Input').value = testBase64;
+            showMessage('测试Base64数据已填充', 'success');
+        }
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 页面加载时自动加载封面
+        window.onload = loadCover;
+    </script>
+</body>
+</html>

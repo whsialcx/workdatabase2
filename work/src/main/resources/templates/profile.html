@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人资料</title>
+    <link rel="stylesheet" href="/css/booksearch.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <div class="header">
+        <h1>图书搜索系统</h1>
+        <div class="user-info">
+            <span class="user-welcome">欢迎，<span id="usernameDisplay"></span> 
+                <span id="userRole" class="role-badge"></span>
+            </span>
+            <a id="dashboardBtn" href="#" class="dashboard-btn">进入仪表板</a>
+            <button id="logoutBtn" class="logout-btn">退出</button>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <h2>👤 个人资料</h2>
+        
+        <form id="profileForm" class="profile-form">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" class="form-input" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">电子邮件</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="输入您的电子邮件地址">
+            </div>
+            
+            <button type="submit" class="save-btn">保存更改</button>
+        </form>
+
+        <hr class="divider">
+
+        <h3>🔒 修改密码</h3>
+        <form id="passwordForm" class="profile-form">
+            <div class="form-group">
+                <label for="oldPassword">当前密码</label>
+                <input type="password" id="oldPassword" name="oldPassword" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">新密码</label>
+                <input type="password" id="newPassword" name="newPassword" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">确认新密码</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" required>
+            </div>
+            
+            <button type="submit" class="save-btn change-pass-btn">修改密码</button>
+        </form>
+    </div>
+    <script src="/js/profile.js"></script>
+</body>
+</html>

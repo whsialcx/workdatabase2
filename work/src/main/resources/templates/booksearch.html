@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书搜索</title>
+    <link rel="stylesheet" href="/css/booksearch.css">
+</head>
+<body>
+    <div class="header">
+        <h1>图书搜索系统</h1>
+        <div class="user-info">
+            <span class="user-welcome">欢迎，<span id="usernameDisplay"></span> 
+                <span id="userRole" class="role-badge"></span>
+            </span>
+            <a id="dashboardBtn" href="#" class="dashboard-btn">进入仪表板</a>
+            <button id="logoutBtn" class="logout-btn">退出</button>
+        </div>
+    </div>
+    
+    <div class="search-section">
+        <h2>图书搜索</h2>
+        <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="输入图书标题、作者或类别进行搜索...">
+            <button id="searchBtn" class="search-btn">搜索</button>
+        </div>
+        
+        <!-- 热门搜索区域 -->
+        <div id="hotSearchSection" class="hot-search-section">
+            <div class="hot-search-header">
+                <h3>🔥 热门搜索</h3>
+                <button id="refreshHotBtn" class="refresh-btn">刷新</button>
+            </div>
+            <div id="hotKeywords" class="hot-keywords">
+            </div>
+        </div>
+        <div id="searchResults">
+            <div id="booksList" class="books-grid">
+            </div>
+        </div>
+    </div>
+    <script src="/js/booksearch.js"></script>
+</body>
+</html>

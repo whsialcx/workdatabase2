@@ -1,0 +1,110 @@
+/* readbook.css */
+body {
+    background-color: #f8f9fa;
+}
+
+#contentContainer {
+    min-height: 600px;
+}
+
+#pdfViewer iframe {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+#textViewer {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.8;
+    font-size: 16px;
+    padding: 20px;
+}
+
+#textViewer .text-content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#textViewer h1, #textViewer h2, #textViewer h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+#textViewer p {
+    margin-bottom: 1em;
+    text-indent: 2em;
+}
+
+#textViewer code {
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: Consolas, Monaco, 'Courier New', monospace;
+}
+
+#textViewer pre {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    overflow-x: auto;
+}
+
+#textViewer blockquote {
+    border-left: 4px solid #007bff;
+    padding-left: 15px;
+    margin-left: 0;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.highlight {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.unsupported-format {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.unsupported-format i {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.error-container {
+    padding: 60px 20px;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+    
+    #textViewer {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

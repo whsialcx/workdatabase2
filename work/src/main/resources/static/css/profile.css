@@ -1,0 +1,116 @@
+/* 基础样式，确保背景和布局与 dashboard 一致 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: url('/images/preview.jpg') no-repeat center center fixed; /* 复用 dashboard 的背景 */
+    background-size: cover;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 个人资料容器样式 */
+.profile-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 30px auto; /* 居中显示 */
+}
+
+.profile-container h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.profile-container h3 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #e0e0e0;
+    margin: 30px 0;
+}
+
+/* 表单样式 */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-input {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+.form-input:disabled {
+    background: #ecf0f1;
+    color: #7f8c8d;
+    cursor: not-allowed;
+}
+
+/* 保存按钮样式 (复用 booksearch.css 中的 .search-btn) */
+.save-btn {
+    padding: 15px 25px;
+    background: linear-gradient(to right, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    margin-top: 10px;
+    align-self: flex-start; /* 按钮左对齐 */
+}
+
+.save-btn:hover {
+    background: linear-gradient(to right, #2980b9, #1c6ea4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(52, 152, 219, 0.3);
+}
+
+/* 修改密码按钮使用不同的颜色 */
+.change-pass-btn {
+    background: linear-gradient(to right, #e67e22, #d35400);
+    box-shadow: 0 4px 6px rgba(230, 126, 34, 0.2);
+}
+
+.change-pass-btn:hover {
+    background: linear-gradient(to right, #d35400, #c0392b);
+    box-shadow: 0 6px 10px rgba(230, 126, 34, 0.3);
+}

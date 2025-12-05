@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员仪表板</title>
+    <link rel="stylesheet" href="/css/admindashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="header-title">
+                <i class="fas fa-tachometer-alt"></i>
+                <div>
+                    <h1>管理员仪表板</h1>
+                    <span class="role-badge">系统管理员</span>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div>
+                    <div id="usernameDisplay">管理员</div>
+                    <div style="font-size: 12px; opacity: 0.8;">上次登录: <span id="loginTime"></span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="left-column">
+                <div class="welcome-section">
+                    <div class="welcome-message">
+                        <h2>欢迎回来，<span id="adminInfoUsername">管理员</span>！</h2>
+                        <p>今天是美好的一天，祝您工作愉快！</p>
+                    </div>
+                </div>
+                
+                <div class="admin-info">
+                    <h3><i class="fas fa-info-circle"></i> 管理员信息</h3>
+                    <div class="info-item">
+                        <div class="info-label">管理员账号：</div>
+                        <div class="info-value" id="adminInfoUsernameValue">admin</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">登录状态：</div>
+                        <div class="info-value">已登录</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">登录时间：</div>
+                        <div class="info-value" id="loginTimeValue">2023-11-15 10:30:25</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">角色权限：</div>
+                        <div class="info-value">系统管理员（拥有所有管理权限）</div>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3><i class="fas fa-th-large"></i> 功能导航</h3>
+                    <div class="nav-links">
+                        <a href="/booksearch" class="nav-link">
+                            <i class="fas fa-search"></i>
+                            <span>图书搜索</span>
+                        </a>
+                        <a href="/bookmanagement" class="nav-link">
+                            <i class="fas fa-book"></i>
+                            <span>图书管理</span>
+                        </a>
+                        <a href="/usermanagement" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>用户管理</span>
+                        </a>
+                        <a href="/borrowmanagement" class="nav-link">
+                            <i class="fas fa-hand-holding"></i>
+                            <span>借阅管理</span>
+                        </a>
+                        <a href="/admin/submissionmanagement" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>图书审查</span>
+                        </a>
+                        <a href="/login" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>返回登录页</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="logout-section">
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        退出登录
+                    </button>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-value" id="bookCount">-</div>
+                        <div class="stat-label">馆藏图书</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value" id="userCount">-</div>
+                        <div class="stat-label">注册用户</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding"></i>
+                        </div>
+                        <div class="stat-value" id="borrowCount">-</div>
+                        <div class="stat-label">当前借阅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value" id="overdueCount">-</div>
+                        <div class="stat-label">逾期未还</div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <h3><i class="fas fa-bolt"></i> 快捷操作</h3>
+                    <div class="action-buttons">
+                        <a href="/bookmanagement?action=add" class="action-btn">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>添加图书</span>
+                        </a>
+                        <a href="/usermanagement?action=add" class="action-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>新增用户</span>
+                        </a>
+                        <a href="/reports" class="action-btn">
+                            <i class="fas fa-print"></i>
+                            <span>打印报表</span>
+                        </a>
+                        <a href="/settings" class="action-btn">
+                            <i class="fas fa-cog"></i>
+                            <span>系统设置</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/admindashboard.js"></script>
+</body>
+</html>

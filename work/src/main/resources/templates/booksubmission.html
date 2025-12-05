@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书提交 - 图书管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/booksubmission.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-book-medical"></i> 图书提交</h1>
+            <p>分享您的图书，丰富馆藏资源</p>
+        </div>
+
+        <div class="form-container">
+            <div id="messageContainer"></div>
+
+            <form id="bookSubmissionForm">
+                <div class="form-group">
+                    <label for="title" class="required">图书标题</label>
+                    <input type="text" id="title" name="title" required 
+                           placeholder="请输入图书标题">
+                </div>
+
+                <div class="form-group">
+                    <label for="author" class="required">作者</label>
+                    <input type="text" id="author" name="author" required 
+                           placeholder="请输入作者姓名">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">图书类别</label>
+                        <select id="category" name="category">
+                            <option value="">请选择类别</option>
+                            <option value="文学">文学</option>
+                            <option value="科技">科技</option>
+                            <option value="历史">历史</option>
+                            <option value="哲学">哲学</option>
+                            <option value="经济">经济</option>
+                            <option value="教育">教育</option>
+                            <option value="艺术">艺术</option>
+                            <option value="小说">小说</option>
+                            <option value="传记">传记</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publishYear">出版年份</label>
+                        <input type="number" id="publishYear" name="publishYear" 
+                               min="1900" max="2024" 
+                               placeholder="如：2023">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="isbn">ISBN号</label>
+                        <input type="text" id="isbn" name="isbn" 
+                               placeholder="国际标准书号">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publisher">出版社</label>
+                        <input type="text" id="publisher" name="publisher" 
+                               placeholder="出版社名称">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="coverFile">封面图片（可选）</label>
+                    <input type="file" id="coverFile" accept="image/*">
+                    <small>可上传图片文件，或在下方粘贴 Base64 数据（两者以文件优先）</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="coverBase64Input">或直接粘贴 Base64（可选）</label>
+                    <textarea id="coverBase64Input" rows="3" placeholder="粘贴Base64字符串或 data URI"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">图书简介</label>
+                    <textarea id="description" name="description" 
+                              placeholder="请简要描述图书内容、特色等信息..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> 提交审核
+                </button>
+            </form>
+
+            <div class="nav-links">
+                <a href="/user/dashboard" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> 返回用户中心
+                </a>
+                <a href="/booksearch" class="nav-link">
+                    <i class="fas fa-search"></i> 搜索图书
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="/js/booksubmission.js"></script>
+</body>
+</html>

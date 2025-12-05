@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书提交审核 - 图书管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/submissionmanagement.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-tasks"></i>
+                图书提交审核
+            </h1>
+            <div class="nav-links">
+                <a href="/admin/admindashboard" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> 返回管理后台
+                </a>
+                <a href="/bookmanagement" class="nav-link">
+                    <i class="fas fa-book"></i> 图书管理
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card total">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">总提交数</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">待审核</div>
+            </div>
+            <div class="stat-card approved">
+                <div class="stat-number" id="approvedCount">0</div>
+                <div class="stat-label">已通过</div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-number" id="rejectedCount">0</div>
+                <div class="stat-label">已拒绝</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>状态筛选：</label>
+                <select id="statusFilter" class="filter-select">
+                    <option value="">全部状态</option>
+                    <option value="PENDING">待审核</option>
+                    <option value="APPROVED">已通过</option>
+                    <option value="REJECTED">已拒绝</option>
+                </select>
+            </div>
+            
+            <button class="refresh-btn" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> 刷新
+            </button>
+        </div>
+
+        <div class="submissions-table">
+            <div class="table-header">
+                <div>图书信息</div>
+                <div>提交用户</div>
+                <div>提交时间</div>
+                <div>状态</div>
+                <div>审核意见</div>
+                <div>操作</div>
+            </div>
+            
+            <div class="table-body" id="submissionsList">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 加载中...
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination" style="display: none;">
+            <button class="page-btn" id="prevPage" disabled>
+                <i class="fas fa-chevron-left"></i> 上一页
+            </button>
+            <span class="page-info" id="pageInfo">第 1 页，共 1 页</span>
+            <button class="page-btn" id="nextPage" disabled>
+                下一页 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 审核模态框 -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">审核图书提交</h3>
+            <div id="submissionDetails"></div>
+            <textarea id="reviewComment" placeholder="请输入审核意见（可选）"></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-approve" id="approveBtn">
+                    <i class="fas fa-check"></i> 通过
+                </button>
+                <button class="btn btn-reject" id="rejectBtn">
+                    <i class="fas fa-times"></i> 拒绝
+                </button>
+                <button class="btn" id="cancelReviewBtn" style="background: #95a5a6; color: white;">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查看详情模态框 -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <h3>提交详情</h3>
+            <div id="detailContent"></div>
+            <div class="modal-actions">
+                <button class="btn" id="closeDetailBtn" style="background: #95a5a6; color: white;">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/submissionmanagement.js"></script>
+</body>
+</html>

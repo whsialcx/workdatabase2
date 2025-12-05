@@ -1,0 +1,274 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: url('/images/preview.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    min-height: 100vh;
+}
+.dashboard-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.welcome-message {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+.user-info {
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.logout-btn:hover {
+    background: #c0392b;
+}
+.nav-links {
+    margin: 20px 0;
+}
+.nav-links a {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 8px 15px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.nav-links a:hover {
+    background: #2980b9;
+}
+
+/* 借阅记录样式 */
+.borrow-section {
+    margin-top: 30px;
+}
+.borrow-records {
+    margin-top: 15px;
+}
+.record-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.record-info {
+    flex: 1;
+}
+.record-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+.record-detail {
+    color: #666;
+    margin-bottom: 3px;
+}
+.record-actions {
+    display: flex;
+    gap: 10px;
+}
+.return-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.return-btn:hover {
+    background: #219653;
+}
+.renew-btn {
+    background: #f39c12;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.renew-btn:hover {
+    background: #e67e22;
+}
+.return-btn:disabled, .renew-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+.status-overdue {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.status-normal {
+    color: #27ae60;
+}
+.no-records {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+.section-title {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.search-history-section {
+    margin: 20px 0;
+}
+
+.search-history-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.history-item:hover {
+    background-color: #f5f5f5;
+}
+
+.no-records {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.clear-history-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.clear-history-btn:hover {
+    background: #c0392b;
+}
+
+.search-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.history-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+    border-color: #3498db;
+}
+
+.history-keyword {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.history-time {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.history-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.history-search-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s ease;
+}
+
+.history-search-btn:hover {
+    background: #2980b9;
+}
+
+.history-delete-btn {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s ease;
+}
+
+.history-delete-btn:hover {
+    background: #7f8c8d;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .history-actions {
+        align-self: flex-end;
+    }
+}

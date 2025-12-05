@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书详情</title>
+    <link rel="stylesheet" href="/css/bookdetail.css">
+</head>
+<body>
+    <div class="header">
+        <h1>图书详情</h1>
+        <div class="user-info">
+            <span class="user-welcome">欢迎，<span id="usernameDisplay"></span> 
+                <span id="userRole" class="role-badge"></span>
+            </span>
+            <a href="/booksearch" class="back-btn">返回搜索</a>
+            <a id="dashboardBtn" href="#" class="dashboard-btn">进入仪表板</a>
+            <button id="logoutBtn" class="logout-btn">退出</button>
+        </div>
+    </div>
+    
+    <div class="book-detail-container">
+        <div class="book-detail-card">
+            <div class="book-cover-section">
+                <div class="book-cover">
+                    <img id="bookCover" src="/images/test1.jpg" alt="图书封面">
+                </div>
+                <div class="book-actions">
+                    <div class="book-status" id="bookStatus"></div>
+                    <button id="borrowBtn" class="borrow-btn" onclick="borrowCurrentBook()">借阅</button>
+                    <button id="renewBtn" class="renew-btn" style="display: none;" onclick="renewBook()">续借</button>
+                </div>
+            </div>
+            
+            <div class="book-info-section">
+                <h1 id="bookTitle" class="book-title"></h1>
+                <div class="book-meta">
+                    <span class="book-author" id="bookAuthor"></span>
+                    <span class="book-category" id="bookCategory"></span>
+                </div>
+                
+                <div class="book-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">可借数量</span>
+                        <span class="stat-value" id="availableCount"></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">总数量</span>
+                        <span class="stat-value" id="totalCount"></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">借阅次数</span>
+                        <span class="stat-value" id="borrowCount">0</span>
+                    </div>
+                </div>
+                
+                <div class="book-details">
+                    <div class="detail-group">
+                        <h3>📚 图书信息</h3>
+                        <div class="detail-item">
+                            <strong>ISBN:</strong> <span id="bookIsbn"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>位置:</strong> <span id="bookLocation"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>出版社:</strong> <span id="bookPublisher"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>出版时间:</strong> <span id="publishTime"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>入库时间:</strong> <span id="includeTime"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>状态:</strong> <span id="statusText"></span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-info" id="readOnlineBtn" style="display: none;">
+                        <i class="fas fa-book-reader"></i> 在线阅读
+                    </button>
+                    
+                    <div class="detail-group">
+                        <h3>📖 内容简介</h3>
+                        <div class="book-introduction" id="bookIntroduction">
+                            暂无简介
+                        </div>
+                    </div>
+                    
+                    <div class="detail-group" id="currentBorrowSection" style="display: none;">
+                        <h3>⏰ 当前借阅信息</h3>
+                        <div class="borrow-info">
+                            <div class="detail-item">
+                                <strong>借阅日期:</strong> <span id="borrowDate"></span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>应还日期:</strong> <span id="dueDate"></span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>是否可续借:</strong> <span id="renewableStatus"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 相关图书推荐 -->
+        <div class="related-books-section">
+            <h2>📚 相关图书推荐</h2>
+            <div id="relatedBooks" class="related-books-grid">
+                <!-- 相关图书将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+    <script src="/js/bookdetail.js"></script>
+</body>
+</html>

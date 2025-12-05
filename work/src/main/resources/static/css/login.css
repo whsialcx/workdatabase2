@@ -1,0 +1,222 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; 
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/loginbackground.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -2;
+    animation: subtleZoom 20s infinite alternate linear;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1));
+    z-index: -1;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 15px; 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    width: 400px;
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    animation: fadeIn 1s ease-out;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.login-header h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+.login-header p {
+    color: #555; 
+}
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.7); 
+}
+input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    background: rgba(255, 255, 255, 1); 
+}
+.user-type-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.user-type-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid transparent; 
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.6); 
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+.user-type-btn.active {
+    border-color: #3498db;
+    background: #3498db;
+    color: white;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+}
+.user-type-btn:not(.active):hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #ddd;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+.login-btn:hover {
+    background: #2980b9;
+    box-shadow: 0 6px 20px rgba(41, 128, 185, 0.5);
+    transform: translateY(-2px);
+}
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.register-link a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+.register-link a:hover {
+    text-decoration: underline;
+}
+.result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+@keyframes subtleZoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05); 
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+.loading {
+    height: 100px;
+    width: 100px;
+    border: 6px solid aqua;
+    border-radius: 4px;
+    box-shadow: 0 0 8px aqua, 0 0 8px aqua inset;
+    animation: 2s loading ease-in-out infinite;
+}
+
+@keyframes loading {
+    0%{
+        transform: rotateX(0) rotateY(0) rotateZ(0);
+    }
+    33%{
+        transform: rotateX(180deg) rotateY(0) rotateZ(0);
+    }
+    67%{
+        transform: rotateX(180deg) rotateY(180deg) rotateZ(0);
+    }
+    100%{
+        transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+    }
+}
+
+.loading-text {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.loading-content {
+    text-align: center;
+}

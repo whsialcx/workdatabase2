@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册验证结果</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div th:if="${success}" class="success">
+        <h2>验证成功</h2>
+        <p th:text="${message}"></p>
+        <a href="/login">前往登录</a>
+    </div>
+    <div th:unless="${success}" class="error">
+        <h2>验证失败</h2>
+        <p th:text="${message}"></p>
+        <a href="/register">重新注册</a>
+    </div>
+</body>
+</html>

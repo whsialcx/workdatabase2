@@ -1,0 +1,168 @@
+/* 基础样式，确保背景和布局与 dashboard 一致 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: url('/images/preview.jpg') no-repeat center center fixed; /* 复用 dashboard 的背景 */
+    background-size: cover;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 设置容器样式 */
+.settings-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    max-width: 800px;
+    margin: 30px auto; /* 居中显示 */
+}
+
+.settings-container h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #e0e0e0;
+    margin: 10px 0;
+}
+
+/* 单个设置项 */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.setting-label strong {
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.setting-label p {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* 下拉选择框样式 */
+.setting-select {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.setting-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+/* Toggle 开关样式 */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: linear-gradient(to right, #27ae60, #2ecc71); /* 复用 dashboard-btn 绿色 */
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* 保存按钮样式 (复用 .save-btn) */
+.save-btn {
+    padding: 15px 25px;
+    background: linear-gradient(to right, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    margin-top: 10px;
+    align-self: flex-start; /* 按钮左对齐 */
+}
+
+.save-btn:hover {
+    background: linear-gradient(to right, #2980b9, #1c6ea4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(52, 152, 219, 0.3);
+}
+
+/* 响应式适配 */
+@media (max-width: 600px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .setting-select, .toggle-switch {
+        align-self: flex-end;
+    }
+}

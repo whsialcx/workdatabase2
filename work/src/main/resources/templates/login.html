@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>图书管理系统</h1>
+            <p>欢迎回来，请登录您的账户</p>
+        </div>
+
+        <div class="user-type-selector">
+            <div class="user-type-btn user active" onclick="selectUserType('user')">
+                普通用户
+            </div>
+            <div class="user-type-btn admin" onclick="selectUserType('admin')">
+                管理员
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="loginUsername">用户名</label>
+            <input type="text" id="loginUsername" placeholder="请输入用户名">
+        </div>
+        
+        <div class="form-group">
+            <label for="loginPassword">密码</label>
+            <input type="password" id="loginPassword" placeholder="请输入密码">
+        </div>
+
+        <button class="login-btn" onclick="login()">登录</button>
+
+        <div id="result" class="result"></div>
+
+        <div class="register-link">
+            还没有账户？ <a href="/register">立即注册</a>
+        </div>
+    </div>
+
+    <!-- 添加加载界面 -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading"></div>
+            <div class="loading-text">登录中，请稍候...</div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

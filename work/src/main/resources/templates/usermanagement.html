@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="/css/management.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>用户管理</h1>
+            <a href="/admin/admindashboard" class="back-link">返回仪表板</a>
+        </header>
+        
+        <main>
+            <div class="user-table-container">
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>全名</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <button id="prevPage" disabled>上一页</button>
+                <span id="pageInfo">第 1 / 1 页</span>
+                <button id="nextPage" disabled>下一页</button>
+            </div>
+        </main>
+    </div>
+    <script src="/js/usermanagement.js"></script>
+</body>
+</html>

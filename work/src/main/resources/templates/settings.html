@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置</title>
+    <link rel="stylesheet" href="/css/booksearch.css">
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body>
+    <div class="header">
+        <h1>图书搜索系统</h1>
+        <div class="user-info">
+            <span class="user-welcome">欢迎，<span id="usernameDisplay"></span> 
+                <span id="userRole" class="role-badge"></span>
+            </span>
+            <a id="dashboardBtn" href="#" class="dashboard-btn">进入仪表板</a>
+            <button id="logoutBtn" class="logout-btn">退出</button>
+        </div>
+    </div>
+
+    <div class="settings-container">
+        <h2>⚙️ 应用设置</h2>
+        
+        <div class="settings-form">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>邮件通知</strong>
+                    <p>当图书即将到期时向我发送提醒邮件。</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="emailNotifications">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>页面主题</strong>
+                    <p>选择您喜欢的界面主题。</p>
+                </div>
+                <select id="appTheme" class="setting-select">
+                    <option value="light">明亮模式</option>
+                    <option value="dark">暗黑模式</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </div>
+            
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>显示语言</strong>
+                    <p>选择应用显示的语言。</p>
+                </div>
+                <select id="appLanguage" class="setting-select">
+                    <option value="zh-CN">简体中文</option>
+                    <option value="en-US">English</option>
+                </select>
+            </div>
+            
+            <hr class="divider">
+            
+            <button id="saveSettingsBtn" class="save-btn">保存设置</button>
+        </div>
+    </div>
+    <script src="/js/settings.js"></script>
+</body>
+</html>

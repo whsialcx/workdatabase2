@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借阅管理</title>
+    <link rel="stylesheet" href="/css/management.css">
+    <!-- 添加Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="title-section">
+                    <i class="fas fa-book-reader header-icon"></i>
+                    <h1>借阅管理</h1>
+                </div>
+                <a href="/admin/admindashboard" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    返回仪表板
+                </a>
+            </div>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-filter"></i> 筛选条件</h2>
+            </div>
+            <div class="card-body">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="statusFilter">
+                            <i class="fas fa-filter"></i>
+                            借阅状态：
+                        </label>
+                        <select id="statusFilter" class="styled-select">
+                            <option value="all">所有记录</option>
+                            <option value="active">当前借阅</option>
+                            <option value="returned">已归还</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="searchInput">
+                            <i class="fas fa-search"></i>
+                            搜索：
+                        </label>
+                        <input type="text" id="searchInput" placeholder="输入图书标题或用户名..." class="search-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list"></i> 借阅记录</h2>
+                    <div class="table-info" id="tableInfo">
+                        共 <span id="totalRecords">0</span> 条记录
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="borrow-table-container">
+                        <table id="borrowTable" class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>记录ID</th>
+                                    <th>图书标题</th>
+                                    <th>借阅用户</th>
+                                    <th>借阅日期</th>
+                                    <th>应还日期</th>
+                                    <th>归还日期</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="borrowTableBody">
+                                <!-- 数据将通过JavaScript填充 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination-container">
+                        <div class="pagination-info" id="pageInfo">第 1 / 1 页</div>
+                        <div class="pagination-controls">
+                            <button id="prevPage" class="pagination-btn" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                                上一页
+                            </button>
+                            <div class="pagination-pages" id="paginationPages">
+                                <!-- 页码将通过JavaScript生成 -->
+                            </div>
+                            <button id="nextPage" class="pagination-btn" disabled>
+                                下一页
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/borrowmanagement.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理 - 管理员系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/bookmanagement.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1><i class="fas fa-book"></i> 图书管理系统 - 管理员</h1>
+            <div class="user-info">
+                <span class="user-welcome">欢迎，管理员 <span id="usernameDisplay">Admin</span></span>
+                <span class="role-badge">管理员</span>
+                <div class="nav-links">
+                    <a href="/admin/admindashboard" class="nav-btn"><i class="fas fa-tachometer-alt"></i> 仪表板</a>
+                    <button onclick="logout()" class="nav-btn logout-btn"><i class="fas fa-sign-out-alt"></i> 退出</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="搜索图书标题、作者或类别...">
+                <button class="search-btn" onclick="searchBooks()"><i class="fas fa-search"></i> 搜索</button>
+            </div>
+            <button class="add-btn" onclick="openAddModal()"><i class="fas fa-plus"></i> 添加图书</button>
+        </div>
+
+        <!-- 图书列表 -->
+        <div class="books-container">
+            <div class="books-header">
+                <div>图书信息</div>
+                <div>作者</div>
+                <div>类别</div>
+                <div>库存</div>
+                <div>状态</div>
+                <div>操作</div>
+            </div>
+            <div class="books-list" id="booksList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination" id="pagination">
+            <!-- 分页按钮将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <!-- 添加/编辑图书模态框 -->
+    <div class="modal" id="bookModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-book"></i> <span id="modalTitle">添加图书</span></h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bookForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookTitle">图书标题 *</label>
+                            <input type="text" id="bookTitle" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookAuthor">作者 *</label>
+                            <input type="text" id="bookAuthor" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookCategory">类别</label>
+                            <input type="text" id="bookCategory" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookLocation">位置</label>
+                            <input type="text" id="bookLocation" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookTotal">总数量 *</label>
+                            <input type="number" id="bookTotal" class="form-control" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookPublishTime">出版时间</label>
+                            <input type="date" id="bookPublishTime" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookIntroduction">简介</label>
+                        <textarea id="bookIntroduction" class="form-control" rows="4"></textarea>
+                    </div>
+                    <input type="hidden" id="bookId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveBook()">保存</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/bookmanagement.js"></script>
+</body>
+</html>

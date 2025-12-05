@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1>创建账户</h1>
+            <p>注册新的用户账户</p>
+        </div>
+
+        <!-- 用户类型选择 -->
+        <div class="user-type-selector">
+            <div class="user-type-btn user active" onclick="selectUserType('user')">
+                👤 普通用户
+            </div>
+            <div class="user-type-btn admin" onclick="selectUserType('admin')">
+                🔧 管理员
+            </div>
+        </div>
+
+        <!-- 管理员注册提示 -->
+        <div id="adminNotice" class="admin-notice">
+            管理员注册需要验证。提交申请后，系统将向管理员邮箱发送验证请求，通过验证后才能完成注册。
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="regUsername">用户名 *</label>
+                <input type="text" id="regUsername" placeholder="请输入用户名" required>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">密码 *</label>
+                <input type="password" id="regPassword" placeholder="请输入密码" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="regEmail">邮箱 *</label>
+                <input type="email" id="regEmail" placeholder="请输入邮箱" required>
+            </div>
+            <div class="form-group">
+                <label for="regFullName">全名</label>
+                <input type="text" id="regFullName" placeholder="请输入全名">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="regPhone">电话号码</label>
+            <input type="tel" id="regPhone" placeholder="请输入电话号码">
+        </div>
+
+        <button class="register-btn" onclick="register()">注册账户</button>
+
+        <div id="result" class="result"></div>
+
+        <div class="login-link">
+            已有账户？ <a href="/login">立即登录</a>
+        </div>
+    </div>
+    <script src="/js/register.js"></script>
+</body>
+</html>
