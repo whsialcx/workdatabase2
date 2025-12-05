@@ -442,4 +442,81 @@ public class BookController {
             return ResponseEntity.ok(Collections.emptyList());
         }
     }
+
+    // 更新图书封面
+    @PostMapping("/{id}/cover")
+    public ResponseEntity<Map<String, Object>> updateBookCover(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> request) {
+        try {
+            String coverBase64 = request.get("coverBase64");
+            
+            Optional<Book> bookOptional = bookService.findById(id);
+            if (!bookOptional.isPresent()) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "图书不存在");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            Book book = bookOptional.get();
+            
+            // 验证base64格式（可选）
+            if (coverBase64 != null && !coverBase64.trim().isEmpty()) {
+                // 可以添加base64格式验证
+                if (coverBase64.length() > 1024 * 1024 * 10) { // 限制10MB
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("success", false);
+                    response.put("message", "封面图片过大，请上传小于10MB的图片");
+                    return ResponseEntity.badRequest().body(response);
+                }
+            }
+            
+            // 更新封面
+            book.setCoverBase64(coverBase64);
+            Book updatedBook = bookService.addBook(book);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "封面更新成功");
+            response.put("book", updatedBook);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "更新封面失败: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    // 删除图书封面
+    @DeleteMapping("/{id}/cover")
+    public ResponseEntity<Map<String, Object>> deleteBookCover(@PathVariable Long id) {
+        try {
+            Optional<Book> bookOptional = bookService.findById(id);
+            if (!bookOptional.isPresent()) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "图书不存在");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            Book book = bookOptional.get();
+            book.setCoverBase64(null);
+            Book updatedBook = bookService.addBook(book);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "封面删除成功");
+            response.put("book", updatedBook);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "删除封面失败: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

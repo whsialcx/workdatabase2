@@ -4,7 +4,6 @@ let currentSubmissionId = null;
 let currentStatusFilter = '';
 
 // 获取管理员ID
-// 获取管理员ID
 function getAdminId() {
     // 首先检查是否有adminId
     let adminId = localStorage.getItem('adminId') || sessionStorage.getItem('adminId');

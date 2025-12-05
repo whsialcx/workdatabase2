@@ -520,3 +520,201 @@ body {
         gap: 0;
     }
 }
+
+/* 封面相关样式 */
+.book-cover-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.book-cover-preview {
+    width: 150px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-placeholder {
+    color: #ccc;
+    font-size: 48px;
+}
+
+.cover-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-upload-cover {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-upload-cover:hover {
+    background: var(--secondary-color);
+}
+
+.btn-delete-cover {
+    background: var(--danger-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-delete-cover:hover {
+    background: #c0392b;
+}
+
+.cover-input-container {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.cover-input-container textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    resize: vertical;
+}
+
+.cover-input-container textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.cover-input-info {
+    font-size: 12px;
+    color: var(--gray-color);
+    margin-top: 5px;
+}
+
+.cover-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1100;
+    justify-content: center;
+    align-items: center;
+}
+
+.cover-modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cover-modal-header {
+    padding: 15px 20px;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cover-modal-body {
+    padding: 20px;
+    max-height: calc(80vh - 120px);
+    overflow-y: auto;
+}
+
+.cover-preview-large {
+    width: 100%;
+    max-height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.cover-preview-large img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+/* 图书列表中的封面预览 */
+.book-cover-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover-small {
+    width: 50px;
+    height: 70px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-cover-small:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+/* 在 books-header 中添加封面列 */
+.books-header {
+    display: grid;
+    grid-template-columns: 0.5fr 2.5fr 2fr 1.5fr 1fr 1fr 1.5fr;
+    gap: 15px;
+}
+
+/* 在 book-item 中添加封面列 */
+.book-item {
+    display: grid;
+    grid-template-columns: 0.5fr 2.5fr 2fr 1.5fr 1fr 1fr 1.5fr;
+    gap: 15px;
+}
