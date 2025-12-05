@@ -288,7 +288,7 @@ body {
     background: white;
     padding: 30px;
     border-radius: 12px;
-    max-width: 500px;
+    max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
@@ -346,6 +346,40 @@ body {
     color: #7f8c8d;
 }
 
+.detail-cover {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.detail-cover img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    padding: 10px;
+}
+
+.cover-info {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.cover-warning {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* 图片加载错误时的样式 */
+img[src*="base64"] {
+    object-fit: contain;
+}
+
+/* 添加响应式调整 */
 @media (max-width: 768px) {
     .table-header,
     .table-row {
@@ -366,5 +400,15 @@ body {
     
     .action-buttons {
         flex-direction: column;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+        padding: 20px;
+    }
+    
+    .detail-cover img {
+        max-width: 90%;
+        max-height: 250px;
     }
 }

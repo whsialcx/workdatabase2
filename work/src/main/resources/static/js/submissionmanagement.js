@@ -89,9 +89,35 @@ function displaySubmissions(submissions) {
     container.innerHTML = submissions.map(submission => `
         <div class="table-row">
             <div>
-                <strong>${submission.title}</strong>
-                <div style="font-size: 0.9rem; color: #7f8c8d;">
-                    作者: ${submission.author}${submission.category ? ` · ${submission.category}` : ''}
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    ${submission.coverBase64 ? `
+                        <div style="width: 40px; height: 50px; flex-shrink: 0;">
+                            <img src="${submission.coverBase64}" 
+                                 alt="封面" 
+                                 style="width: 100%; height: 100%; 
+                                        object-fit: cover; 
+                                        border-radius: 4px;
+                                        border: 1px solid #eee;"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA0MCA1MCIgZmlsbD0iI2Y1ZjVmNSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZjVmNWY1IiBzdHJva2U9IiNlZWVlZWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjIwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjY2NjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+5Zu+5qCHPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                    ` : `
+                        <div style="width: 40px; height: 50px; 
+                                    background: #f8f9fa; 
+                                    border: 1px solid #eee;
+                                    border-radius: 4px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: #999;">
+                            <i class="fas fa-image"></i>
+                        </div>
+                    `}
+                    <div>
+                        <strong>${submission.title}</strong>
+                        <div style="font-size: 0.9rem; color: #7f8c8d;">
+                            作者: ${submission.author}${submission.category ? ` · ${submission.category}` : ''}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>${submission.submitUser ? submission.submitUser.username : '未知用户'}</div>
@@ -197,7 +223,6 @@ async function submitReview(approved) {
             method: 'PUT',
             headers: {
                 'X-Admin-Id': adminId.toString()
-                // 移除 Content-Type，让浏览器自动设置
             }
         });
         
@@ -240,10 +265,15 @@ async function viewSubmission(submissionId) {
             const submission = result.submissions.find(s => s.id === submissionId);
             if (submission) {
                 showSubmissionDetails(submission);
+            } else {
+                throw new Error('未找到该提交记录');
             }
+        } else {
+            throw new Error(result.message);
         }
     } catch (error) {
         console.error('获取详情失败:', error);
+        alert('获取提交详情失败: ' + error.message);
     }
 }
 
@@ -252,8 +282,8 @@ function showSubmissionDetails(submission) {
     const modal = document.getElementById('detailModal');
     const content = document.getElementById('detailContent');
     
-    content.innerHTML = `
-        <div style="margin-bottom: 15px;">
+    let html = `
+        <div style="margin-bottom: 20px;">
             <strong>图书标题:</strong> ${submission.title}
         </div>
         <div style="margin-bottom: 15px;">
@@ -274,6 +304,39 @@ function showSubmissionDetails(submission) {
         <div style="margin-bottom: 15px;">
             <strong>描述:</strong> ${submission.description || '无描述'}
         </div>
+    `;
+    
+    // 添加封面显示
+    if (submission.coverBase64) {
+        html += `
+            <div style="margin-bottom: 20px;">
+                <strong>封面预览:</strong>
+                <div style="margin-top: 10px; text-align: center;">
+                    <img src="${submission.coverBase64}" 
+                         alt="封面图片" 
+                         style="max-width: 300px; max-height: 400px; 
+                                border: 1px solid #ddd; border-radius: 8px;
+                                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                                background: #f8f9fa;"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDMwMCA0MDAiIGZpbGw9IiNmOGY5ZmEiPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNlMGUwZTAiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjE1MCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNjY2NjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77moYc8L3RleHQ+PHRleHQgeD0iMTUwIiB5PSIyMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2NjY2NjYyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPui/m+ihjOWbvuWGheWvvDwvdGV4dD48L3N2Zz4=';this.style.padding='20px'">
+                </div>
+                <div style="margin-top: 10px; font-size: 0.9rem; color: #7f8c8d; text-align: center;">
+                    <i class="fas fa-info-circle"></i> 用户上传的图书封面（Base64格式）
+                </div>
+            </div>
+        `;
+    } else {
+        html += `
+            <div style="margin-bottom: 15px;">
+                <strong>封面:</strong> 
+                <span style="color: #7f8c8d;">
+                    <i class="fas fa-image"></i> 未上传封面
+                </span>
+            </div>
+        `;
+    }
+    
+    html += `
         <div style="margin-bottom: 15px;">
             <strong>提交用户:</strong> ${submission.submitUser ? submission.submitUser.username : '未知用户'}
         </div>
@@ -285,18 +348,25 @@ function showSubmissionDetails(submission) {
                 ${getStatusText(submission.status)}
             </span>
         </div>
-        ${submission.reviewComment ? `
+    `;
+    
+    if (submission.reviewComment) {
+        html += `
             <div style="margin-bottom: 15px;">
                 <strong>审核意见:</strong> ${submission.reviewComment}
             </div>
-        ` : ''}
-        ${submission.reviewTime ? `
+        `;
+    }
+    
+    if (submission.reviewTime) {
+        html += `
             <div style="margin-bottom: 15px;">
                 <strong>审核时间:</strong> ${formatDate(submission.reviewTime)}
             </div>
-        ` : ''}
-    `;
+        `;
+    }
     
+    content.innerHTML = html;
     modal.style.display = 'flex';
 }
 
@@ -328,9 +398,49 @@ function getStatusText(status) {
     return statusMap[status] || status;
 }
 
+// 验证base64图片数据
+function validateBase64Image(base64String) {
+    if (!base64String) return false;
+    
+    // 检查是否是合法的base64图片格式
+    const base64Pattern = /^data:image\/(png|jpeg|jpg|gif|webp|bmp);base64,[a-zA-Z0-9+/]+=*$/;
+    return base64Pattern.test(base64String);
+}
+
+// 压缩图片（如果需要）
+function compressImage(base64String, maxWidth = 800, maxHeight = 800) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            
+            // 计算缩放比例
+            if (width > maxWidth || height > maxHeight) {
+                const ratio = Math.min(maxWidth / width, maxHeight / height);
+                width *= ratio;
+                height *= ratio;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // 转换为JPEG格式，质量为0.8
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+            resolve(compressedBase64);
+        };
+        
+        img.onerror = reject;
+        img.src = base64String;
+    });
+}
+
 // 事件监听
 document.addEventListener('DOMContentLoaded', () => {
-
     const role = localStorage.getItem('role');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     
