@@ -3,508 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图书管理 - 管理员系统</title>
+    <title>图书提交 - 图书管理系统</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/bookmanagement.css">
-    <style>
-        /* 封面管理相关样式 */
-        .book-cover-cell {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .book-cover-small {
-            width: 50px;
-            height: 70px;
-            border-radius: 4px;
-            overflow: hidden;
-            cursor: pointer;
-            background: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #ddd;
-        }
-
-        .book-cover-small img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .book-cover-small:hover {
-            transform: scale(1.05);
-            transition: transform 0.2s ease;
-        }
-
-        .book-cover-small i {
-            font-size: 24px;
-            color: #ccc;
-        }
-
-        .cover-btn {
-            background: #3498db !important;
-            color: white !important;
-        }
-
-        .cover-btn:hover {
-            background: #2980b9 !important;
-        }
-
-        /* 图书列表表头调整 */
-        .books-header {
-            display: grid;
-            grid-template-columns: 0.5fr 2.5fr 1.5fr 1fr 1fr 1fr 1.5fr;
-            gap: 15px;
-        }
-
-        .book-item {
-            display: grid;
-            grid-template-columns: 0.5fr 2.5fr 1.5fr 1fr 1fr 1fr 1.5fr;
-            gap: 15px;
-        }
-
-        /* 封面模态框样式 */
-        .cover-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1100;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .cover-modal-content {
-            background: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .cover-modal-header {
-            padding: 15px 20px;
-            background: #3498db;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cover-modal-body {
-            padding: 20px;
-            max-height: calc(80vh - 120px);
-            overflow-y: auto;
-        }
-
-        .cover-preview-large {
-            width: 100%;
-            height: 300px;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            background: #f9f9f9;
-        }
-
-        .cover-preview-large img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .cover-placeholder {
-            color: #ccc;
-            font-size: 48px;
-            text-align: center;
-        }
-
-        .cover-placeholder i {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .cover-input-container {
-            margin-top: 15px;
-        }
-
-        .cover-input-container label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .cover-input-container textarea {
-            width: 100%;
-            height: 120px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 12px;
-            resize: vertical;
-        }
-
-        .cover-input-container textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .cover-input-info {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-
-        .cover-file-input {
-            margin-bottom: 15px;
-        }
-
-        .cover-file-input input[type="file"] {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: #f9f9f9;
-        }
-
-        .cover-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .cover-action-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .cover-action-btn i {
-            font-size: 14px;
-        }
-
-        .btn-upload {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-upload:hover {
-            background: #219653;
-        }
-
-        .btn-delete {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background: #c0392b;
-        }
-
-        .btn-copy {
-            background: #9b59b6;
-            color: white;
-        }
-
-        .btn-copy:hover {
-            background: #8e44ad;
-        }
-
-        .btn-clear {
-            background: #f39c12;
-            color: white;
-        }
-
-        .btn-clear:hover {
-            background: #e67e22;
-        }
-
-        /* 编辑模态框中的封面部分 */
-        .book-cover-container {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-
-        .cover-preview-small {
-            width: 100px;
-            height: 140px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0 auto 10px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cover-preview-small img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .cover-preview-small i {
-            font-size: 36px;
-            color: #ccc;
-        }
-
-        .cover-manage-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .cover-manage-buttons button {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
-        /* 分页点样式 */
-        .page-dots {
-            padding: 8px 12px;
-            color: #666;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .books-header, .book-item {
-                grid-template-columns: 0.5fr 2fr 1fr 0.8fr 0.8fr 1.2fr;
-            }
-            
-            .book-category {
-                display: none;
-            }
-            
-            .cover-modal-content {
-                width: 95%;
-                margin: 10px;
-            }
-            
-            .cover-actions {
-                flex-direction: column;
-            }
-            
-            .cover-action-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .books-header, .book-item {
-                grid-template-columns: 0.5fr 2fr 0.8fr 0.8fr 1.2fr;
-            }
-            
-            .book-author {
-                display: none;
-            }
-            
-            .cover-preview-large {
-                height: 200px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/booksubmission.css">
 </head>
 <body>
     <div class="container">
-        <!-- 头部 -->
         <div class="header">
-            <h1><i class="fas fa-book"></i> 图书管理系统 - 管理员</h1>
-            <div class="user-info">
-                <span class="user-welcome">欢迎，管理员 <span id="usernameDisplay">Admin</span></span>
-                <span class="role-badge">管理员</span>
-                <div class="nav-links">
-                    <a href="/admin/admindashboard" class="nav-btn"><i class="fas fa-tachometer-alt"></i> 仪表板</a>
-                    <button onclick="logout()" class="nav-btn logout-btn"><i class="fas fa-sign-out-alt"></i> 退出</button>
+            <h1><i class="fas fa-book-medical"></i> 图书提交</h1>
+            <p>分享您的图书，丰富馆藏资源</p>
+        </div>
+
+        <div class="form-container">
+            <div id="messageContainer"></div>
+
+            <form id="bookSubmissionForm">
+                <div class="form-group">
+                    <label for="title" class="required">图书标题</label>
+                    <input type="text" id="title" name="title" required 
+                           placeholder="请输入图书标题">
                 </div>
-            </div>
-        </div>
 
-        <!-- 控制面板 -->
-        <div class="control-panel">
-            <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" placeholder="搜索图书标题、作者或类别...">
-                <button class="search-btn" onclick="searchBooks()"><i class="fas fa-search"></i> 搜索</button>
-            </div>
-            <button class="add-btn" onclick="openAddModal()"><i class="fas fa-plus"></i> 添加图书</button>
-        </div>
-
-        <!-- 图书列表 -->
-        <div class="books-container">
-            <div class="books-header">
-                <div>封面</div>
-                <div>图书信息</div>
-                <div>作者</div>
-                <div>类别</div>
-                <div>库存</div>
-                <div>状态</div>
-                <div>操作</div>
-            </div>
-            <div class="books-list" id="booksList">
-                <div class="loading">
-                    <div class="spinner"></div>
+                <div class="form-group">
+                    <label for="author" class="required">作者</label>
+                    <input type="text" id="author" name="author" required 
+                           placeholder="请输入作者姓名">
                 </div>
-            </div>
-        </div>
 
-        <!-- 分页 -->
-        <div class="pagination" id="pagination">
-            <!-- 分页按钮将通过JavaScript动态生成 -->
-        </div>
-    </div>
-
-    <!-- 添加/编辑图书模态框 -->
-    <div class="modal" id="bookModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-book"></i> <span id="modalTitle">添加图书</span></h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- 封面管理区域 -->
-                <div class="book-cover-container">
-                    <h3 style="margin-bottom: 10px; font-size: 16px; color: #555;">
-                        <i class="fas fa-image"></i> 图书封面
-                    </h3>
-                    <div class="cover-preview-small" id="coverPreview">
-                        <div class="cover-placeholder">
-                            <i class="fas fa-image"></i>
-                            <span style="font-size: 12px; display: block;">暂无封面</span>
-                        </div>
-                    </div>
-                    <div class="cover-manage-buttons">
-                        <button class="action-btn cover-btn" onclick="manageCover()">
-                            <i class="fas fa-edit"></i> 管理封面
-                        </button>
-                    </div>
-                </div>
-                
-                <form id="bookForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookTitle">图书标题 *</label>
-                            <input type="text" id="bookTitle" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookAuthor">作者 *</label>
-                            <input type="text" id="bookAuthor" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookCategory">类别</label>
-                            <input type="text" id="bookCategory" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="bookLocation">位置</label>
-                            <input type="text" id="bookLocation" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bookTotal">总数量 *</label>
-                            <input type="number" id="bookTotal" class="form-control" min="1" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookPublishTime">出版时间</label>
-                            <input type="date" id="bookPublishTime" class="form-control">
-                        </div>
-                    </div>
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="bookIntroduction">简介</label>
-                        <textarea id="bookIntroduction" class="form-control" rows="4"></textarea>
+                        <label for="category">图书类别</label>
+                        <select id="category" name="category">
+                            <option value="">请选择类别</option>
+                            <option value="文学">文学</option>
+                            <option value="科技">科技</option>
+                            <option value="历史">历史</option>
+                            <option value="哲学">哲学</option>
+                            <option value="经济">经济</option>
+                            <option value="教育">教育</option>
+                            <option value="艺术">艺术</option>
+                            <option value="小说">小说</option>
+                            <option value="传记">传记</option>
+                            <option value="其他">其他</option>
+                        </select>
                     </div>
-                    <input type="hidden" id="bookId">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveBook()">保存</button>
+
+                    <div class="form-group">
+                        <label for="publishYear">出版年份</label>
+                        <input type="number" id="publishYear" name="publishYear" 
+                               min="1900" max="2024" 
+                               placeholder="如：2023">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="isbn">ISBN号</label>
+                        <input type="text" id="isbn" name="isbn" 
+                               placeholder="国际标准书号">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publisher">出版社</label>
+                        <input type="text" id="publisher" name="publisher" 
+                               placeholder="出版社名称">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="coverFile">封面图片（可选）</label>
+                    <input type="file" id="coverFile" accept="image/*">
+                    <small>可上传图片文件，或在下方粘贴 Base64 数据（两者以文件优先）</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="coverBase64Input">或直接粘贴 Base64（可选）</label>
+                    <textarea id="coverBase64Input" rows="3" placeholder="粘贴Base64字符串或 data URI"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">图书简介</label>
+                    <textarea id="description" name="description" 
+                              placeholder="请简要描述图书内容、特色等信息..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> 提交审核
+                </button>
+            </form>
+
+            <div class="nav-links">
+                <a href="/user/dashboard" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> 返回用户中心
+                </a>
+                <a href="/booksearch" class="nav-link">
+                    <i class="fas fa-search"></i> 搜索图书
+                </a>
             </div>
         </div>
     </div>
-
-    <!-- 封面管理模态框 -->
-    <div class="cover-modal" id="coverModal">
-        <div class="cover-modal-content">
-            <div class="cover-modal-header">
-                <h2><i class="fas fa-image"></i> 管理图书封面</h2>
-                <button class="close-btn" onclick="closeCoverModal()">&times;</button>
-            </div>
-            <div class="cover-modal-body">
-                <div class="cover-preview-large" id="coverPreviewLarge">
-                    <div class="cover-placeholder">
-                        <i class="fas fa-image"></i>
-                        <span style="font-size: 14px; display: block;">暂无封面</span>
-                    </div>
-                </div>
-                
-                <div class="cover-input-info" id="coverInfo">
-                    当前无封面，请上传封面图片
-                </div>
-                
-                <div class="cover-file-input">
-                    <label for="coverFileInput">上传图片文件：</label>
-                    <input type="file" id="coverFileInput" accept="image/*">
-                    <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                        支持格式：JPEG, PNG, GIF等，大小不超过2MB
-                    </div>
-                </div>
-                
-                <div class="cover-input-container">
-                    <label for="coverBase64Input">Base64图片数据：</label>
-                    <textarea id="coverBase64Input" placeholder="粘贴Base64编码的图片数据（以data:image开头）..."></textarea>
-                    <div class="cover-input-info">
-                        提示：您可以使用在线工具将图片转换为Base64格式，或直接上传图片文件自动转换
-                    </div>
-                </div>
-                
-                <div class="cover-actions">
-                    <button class="cover-action-btn btn-upload" onclick="uploadCover()">
-                        <i class="fas fa-upload"></i> 保存封面
-                    </button>
-                    <button class="cover-action-btn btn-delete" onclick="deleteCover()">
-                        <i class="fas fa-trash"></i> 删除封面
-                    </button>
-                    <button class="cover-action-btn btn-copy" onclick="copyBase64ToClipboard()">
-                        <i class="fas fa-copy"></i> 复制Base64
-                    </button>
-                    <button class="cover-action-btn btn-clear" onclick="clearBase64Input()">
-                        <i class="fas fa-times"></i> 清空输入
-                    </button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeCoverModal()">关闭</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/bookmanagement.js"></script>
+    <script src="/js/booksubmission.js"></script>
 </body>
 </html>
