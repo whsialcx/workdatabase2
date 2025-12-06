@@ -9,12 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/submissions")
+@Tag(name = "管理员提交管理", description = "管理员图书提交审核相关接口")
 public class AdminSubmissionController {
     
     private final BookSubmissionService submissionService;

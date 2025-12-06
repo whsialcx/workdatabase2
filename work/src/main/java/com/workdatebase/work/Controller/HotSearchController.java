@@ -4,6 +4,7 @@ package com.workdatebase.work.Controller;
 import com.workdatebase.work.Service.HotSearchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/search")
+@Tag(name = "搜索管理", description = "热门搜索及用户搜索历史相关接口")
 public class HotSearchController {
 
     private final HotSearchService hotSearchService;

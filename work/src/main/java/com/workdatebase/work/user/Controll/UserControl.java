@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import com.workdatebase.work.repository.BookRecordRepository;
 
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
+@Tag(name = "用户图书管理", description = "用户图书浏览与借阅相关接口")
 public class UserControl {
 
     private final BookService bookService;

@@ -11,12 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
+@Tag(name = "管理员用户管理", description = "管理员用户及借阅记录管理相关接口")
 public class AdminManagementController {
 
     private final UserRepository userRepository;

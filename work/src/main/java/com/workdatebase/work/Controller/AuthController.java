@@ -4,12 +4,14 @@ import com.workdatebase.work.Service.AuthService;
 import com.workdatebase.work.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "用户认证", description = "用户登录、注册及管理员验证相关接口")
 public class AuthController {
     private final AuthService authService;
 

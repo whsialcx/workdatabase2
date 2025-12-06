@@ -8,11 +8,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
+@Tag(name = "管理员图书管理", description = "管理员图书及借阅记录管理相关接口")
 public class AdminControl {
 
     private final BookService bookService;
