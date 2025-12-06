@@ -1,4 +1,4 @@
-package com.workdatebase.work.Controller;
+package com.workdatebase.work.admin.Control;
 
 import com.workdatebase.work.Service.BookService;
 import com.workdatebase.work.entity.BorrowRecord;

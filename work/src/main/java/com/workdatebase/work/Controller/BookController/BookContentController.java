@@ -1,5 +1,5 @@
 // BookContentController.java
-package com.workdatebase.work.Controller;
+package com.workdatebase.work.Controller.BookController;
 
 import com.workdatebase.work.Service.BookContentService;
 import com.workdatebase.work.entity.BookContent;

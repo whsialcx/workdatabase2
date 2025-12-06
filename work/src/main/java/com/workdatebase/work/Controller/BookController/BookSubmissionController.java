@@ -1,4 +1,4 @@
-package com.workdatebase.work.Controller;
+package com.workdatebase.work.Controller.BookController;
 
 import com.workdatebase.work.Service.BookSubmissionService;
 import com.workdatebase.work.entity.BookSubmission;
