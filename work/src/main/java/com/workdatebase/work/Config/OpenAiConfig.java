@@ -23,6 +23,6 @@ public class OpenAiConfig {
                         .email("3247365462@qq.com")))
                     .externalDocs(new ExternalDocumentation()
                         .description("项目GitHub地址")
-                        .url("..."));
+                        .url("https://github.com/whsialcx/workdatabase2"));
     }
 }
