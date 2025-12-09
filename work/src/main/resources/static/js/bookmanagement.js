@@ -7,12 +7,123 @@ let currentBookId = null;
 // API基础URL
 const API_BASE = '/api/books';
 
+
+// 读取图片文件并转换为Base64
+function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            resolve(e.target.result);
+        };
+        reader.onerror = function(error) {
+            reject(new Error('读取文件失败: ' + error));
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// 验证图片文件
+function validateImageFile(file) {
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    
+    if (!validTypes.includes(file.type)) {
+        return { valid: false, message: '不支持的文件类型，请上传JPEG、PNG、GIF或WebP格式的图片' };
+    }
+    
+    if (file.size > maxSize) {
+        return { valid: false, message: '文件大小不能超过2MB' };
+    }
+    
+    return { valid: true };
+}
+
+// 复制Base64到剪贴板
+function copyBase64ToClipboard() {
+    const textarea = document.getElementById('coverBase64Input');
+    textarea.select();
+    document.execCommand('copy');
+    alert('Base64编码已复制到剪贴板');
+}
+
+// 清空Base64输入
+function clearBase64Input() {
+    document.getElementById('coverBase64Input').value = '';
+    const preview = document.getElementById('coverPreviewLarge');
+    preview.innerHTML = '<div class="cover-placeholder"><i class="fas fa-image"></i></div>';
+}
+
+// 初始化文件上传事件
+function initFileUpload() {
+    const fileInput = document.getElementById('coverFileInput');
+    const base64Input = document.getElementById('coverBase64Input');
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // 验证文件
+            const validation = validateImageFile(file);
+            if (!validation.valid) {
+                alert(validation.message);
+                fileInput.value = ''; // 清空文件输入
+                return;
+            }
+            
+            try {
+                // 显示加载提示
+                const preview = document.getElementById('coverPreviewLarge');
+                preview.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在转换图片...</p></div>';
+                
+                // 转换图片为Base64
+                const base64 = await convertImageToBase64(file);
+                
+                // 更新输入框和预览
+                document.getElementById('coverBase64Input').value = base64;
+                preview.innerHTML = `<img src="${base64}" alt="封面预览">`;
+                
+                // 更新文件信息
+                const fileInfo = document.getElementById('coverInfo');
+                fileInfo.innerHTML = `
+                    已选择文件: ${file.name}<br>
+                    文件大小: ${(file.size / 1024).toFixed(2)} KB<br>
+                    图片尺寸: 等待加载...
+                `;
+                
+                // 获取图片实际尺寸
+                const img = new Image();
+                img.onload = function() {
+                    fileInfo.innerHTML = `
+                        已选择文件: ${file.name}<br>
+                        文件大小: ${(file.size / 1024).toFixed(2)} KB<br>
+                        图片尺寸: ${img.width} × ${img.height} 像素
+                    `;
+                };
+                img.src = base64;
+                
+            } catch (error) {
+                console.error('Error converting image:', error);
+                alert('图片转换失败: ' + error.message);
+                fileInput.value = '';
+            }
+        });
+    }
+    
+    // 添加Base64输入框的实时监听
+    if (base64Input) {
+        base64Input.addEventListener('input', function() {
+            previewCover();
+        });
+    }
+}
+
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function() {
     // 显示当前登录的管理员用户名
     const username = localStorage.getItem('username') || 'Admin';
     document.getElementById('usernameDisplay').textContent = username;
-    
+    initFileUpload();
     // 加载图书列表
     loadBooks();
 });
@@ -46,11 +157,29 @@ async function loadBooks()
 }
 
 // 打开封面管理模态框
+// 打开封面管理模态框
 function openCoverModal(bookId, currentCover = null) {
     currentBookId = bookId;
     const modal = document.getElementById('coverModal');
     const previewLarge = document.getElementById('coverPreviewLarge');
     const coverTextarea = document.getElementById('coverBase64Input');
+    const fileInput = document.getElementById('coverFileInput');
+    
+    // 重置文件输入
+    if (fileInput) {
+        fileInput.value = '';
+    }
+    
+    // 更新文件信息显示
+    const fileInfo = document.getElementById('coverInfo');
+    if (fileInfo) {
+        if (currentCover) {
+            // 显示当前封面信息
+            fileInfo.innerHTML = '当前已有封面';
+        } else {
+            fileInfo.innerHTML = '当前无封面，请上传封面图片';
+        }
+    }
     
     // 设置当前封面预览
     if (currentCover) {
@@ -71,7 +200,21 @@ function previewCover() {
     const base64 = textarea.value.trim();
     
     if (base64) {
-        preview.innerHTML = `<img src="${base64}" alt="封面预览">`;
+        if (base64.startsWith('data:image/')) {
+            preview.innerHTML = `<img src="${base64}" alt="封面预览">`;
+        } else {
+            // 尝试修复Base64格式
+            const fixedBase64 = `data:image/jpeg;base64,${base64}`;
+            const img = new Image();
+            img.onload = function() {
+                preview.innerHTML = `<img src="${fixedBase64}" alt="封面预览">`;
+                textarea.value = fixedBase64; // 更新为正确格式
+            };
+            img.onerror = function() {
+                preview.innerHTML = '<div class="cover-placeholder"><i class="fas fa-exclamation-triangle"></i><span>无效的Base64格式</span></div>';
+            };
+            img.src = fixedBase64;
+        }
     } else {
         preview.innerHTML = '<div class="cover-placeholder"><i class="fas fa-image"></i></div>';
     }
@@ -82,8 +225,16 @@ async function uploadCover() {
     const base64 = document.getElementById('coverBase64Input').value.trim();
     
     if (!base64) {
-        alert('请输入Base64编码的图片数据');
+        alert('请先上传图片或输入Base64编码的图片数据');
         return;
+    }
+    
+    // 验证Base64格式
+    if (!base64.startsWith('data:image/')) {
+        const confirmUpload = confirm('输入的Base64数据可能不是有效的图片格式，是否继续上传？');
+        if (!confirmUpload) {
+            return;
+        }
     }
     
     if (!currentBookId) {
@@ -92,6 +243,11 @@ async function uploadCover() {
     }
     
     try {
+        // 显示加载提示
+        const preview = document.getElementById('coverPreviewLarge');
+        const originalContent = preview.innerHTML;
+        preview.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在上传封面...</p></div>';
+        
         const response = await fetch(`${API_BASE}/${currentBookId}/cover`, {
             method: 'POST',
             headers: {
@@ -106,23 +262,40 @@ async function uploadCover() {
             throw new Error(data.message || '上传失败');
         }
         
+        // 恢复预览
+        preview.innerHTML = `<img src="${base64}" alt="图书封面">`;
+        
         closeCoverModal();
         loadBooks();
         alert('封面上传成功！');
     } catch (error) {
         console.error('Error uploading cover:', error);
         alert('上传失败: ' + error.message);
+        
+        // 恢复预览
+        const base64 = document.getElementById('coverBase64Input').value.trim();
+        const preview = document.getElementById('coverPreviewLarge');
+        if (base64) {
+            preview.innerHTML = `<img src="${base64}" alt="图书封面">`;
+        }
     }
 }
 
 // 删除封面
 async function deleteCover(bookId) {
-    if (!confirm('确定要删除这个封面吗？')) {
+    const idToDelete = bookId || currentBookId;
+    
+    if (!idToDelete) {
+        alert('无法找到当前图书');
+        return;
+    }
+    
+    if (!confirm('确定要删除这个封面吗？删除后需要重新上传才能设置新封面。')) {
         return;
     }
     
     try {
-        const response = await fetch(`${API_BASE}/${bookId}/cover`, {
+        const response = await fetch(`${API_BASE}/${idToDelete}/cover`, {
             method: 'DELETE'
         });
         
@@ -131,6 +304,12 @@ async function deleteCover(bookId) {
         if (!response.ok) {
             throw new Error(data.message || '删除失败');
         }
+        
+        // 重置模态框内容
+        document.getElementById('coverBase64Input').value = '';
+        document.getElementById('coverFileInput').value = '';
+        document.getElementById('coverPreviewLarge').innerHTML = '<div class="cover-placeholder"><i class="fas fa-image"></i></div>';
+        document.getElementById('coverInfo').innerHTML = '封面已删除，请上传新封面图片';
         
         loadBooks();
         alert('封面删除成功！');
@@ -321,17 +500,31 @@ function openAddModal() {
     const coverPreview = document.getElementById('coverPreview');
     coverPreview.innerHTML = '<div class="cover-placeholder"><i class="fas fa-image"></i></div>';
     
-    // 设置封面按钮事件（使用临时ID）
-    const tempBookId = 0;
-    document.querySelector('.btn-upload-cover').onclick = function() {
-        openCoverModal(tempBookId);
-    };
-    
-    document.querySelector('.btn-delete-cover').onclick = function() {
-        alert('请先保存图书，再删除封面');
-    };
+    // 设置封面按钮事件 - 修改这里，使用正确的元素选择
+    const manageCoverBtn = document.querySelector('.cover-manage-buttons button');
+    if (manageCoverBtn) {
+        // 修改封面按钮的onclick事件
+        manageCoverBtn.onclick = function() {
+            openCoverModal(0); // 使用临时ID
+        };
+    }
     
     document.getElementById('bookModal').style.display = 'flex';
+}
+
+function manageCover() {
+    const bookId = document.getElementById('bookId').value;
+    const coverPreview = document.getElementById('coverPreview');
+    const img = coverPreview.querySelector('img');
+    const currentCover = img ? img.src : null;
+    
+    if (bookId) {
+        // 编辑模式，有图书ID
+        openCoverModal(bookId, currentCover);
+    } else {
+        // 添加模式，没有图书ID
+        alert('请先保存图书，再管理封面');
+    }
 }
 
 // 编辑图书
@@ -367,14 +560,13 @@ async function editBook(id) {
             coverPreview.innerHTML = '<div class="cover-placeholder"><i class="fas fa-image"></i></div>';
         }
         
-        // 设置封面按钮事件
-        document.querySelector('.btn-upload-cover').onclick = function() {
-            openCoverModal(book.id, book.coverBase64 || null);
-        };
-        
-        document.querySelector('.btn-delete-cover').onclick = function() {
-            deleteCover(book.id);
-        };
+        // 设置封面按钮事件 - 修改这里
+        const manageCoverBtn = document.querySelector('.cover-manage-buttons button');
+        if (manageCoverBtn) {
+            manageCoverBtn.onclick = function() {
+                openCoverModal(book.id, book.coverBase64 || null);
+            };
+        }
         
         document.getElementById('bookModal').style.display = 'flex';
     } catch (error) {
