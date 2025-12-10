@@ -2,6 +2,8 @@ package com.workdatebase.work.Controller.BookController;
 
 import com.workdatebase.work.Service.BookSubmissionService;
 import com.workdatebase.work.entity.BookSubmission;
+import com.workdatebase.work.entity.User;
+import com.workdatebase.work.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/submissions")
@@ -19,9 +22,12 @@ import java.util.Map;
 public class BookSubmissionController {
     
     private final BookSubmissionService submissionService;
+    private final UserRepository userRepository;
     
-    public BookSubmissionController(BookSubmissionService submissionService) {
+    public BookSubmissionController(BookSubmissionService submissionService,
+                                   UserRepository userRepository) {
         this.submissionService = submissionService;
+        this.userRepository = userRepository;
     }
     
     // 用户提交图书
@@ -31,14 +37,17 @@ public class BookSubmissionController {
             @RequestHeader("X-User-Id") Long userId) {
         
         try {
-            // 这里需要从用户服务获取用户信息
-            // 简化处理，实际项目中应该注入UserService
-            // User user = userService.findById(userId);
+            // 检查用户是否存在
+            Optional<User> userOptional = userRepository.findById(userId);
+            if (userOptional.isEmpty()) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "用户不存在，请重新登录");
+                response.put("code", "USER_NOT_FOUND");
+                return ResponseEntity.status(401).body(response);
+            }
             
-            // 临时创建用户对象
-            com.workdatebase.work.entity.User user = new com.workdatebase.work.entity.User();
-            user.setId(userId);
-            
+            User user = userOptional.get();
             BookSubmission savedSubmission = submissionService.submitBook(submission, user);
             
             Map<String, Object> response = new HashMap<>();
@@ -53,6 +62,7 @@ public class BookSubmissionController {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "提交失败: " + e.getMessage());
+            response.put("code", "SUBMISSION_ERROR");
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -77,8 +87,7 @@ public class BookSubmissionController {
             
             return ResponseEntity.ok(response);
             
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "获取提交记录失败: " + e.getMessage());

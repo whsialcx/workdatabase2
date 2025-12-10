@@ -29,12 +29,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 绑定事件监听器
     document.getElementById('logoutBtn').addEventListener('click', logout);
     document.getElementById('clearSearchHistoryBtn').addEventListener('click', clearSearchHistory);
-    
+    document.getElementById('viewAllSubmissionsBtn').addEventListener('click', viewAllSubmissions);
     // 加载数据
-    if (currentUserId) {
+    if (currentUserId) 
+    {
         loadBorrowRecords(currentUserId);
         loadSearchHistory(currentUserId);
-    } else {
+        loadBookSubmissions(currentUserId);
+    } 
+    else
+    {
         // 如果没有用户ID，通过用户名获取
         fetchUserIdByUsername(username);
     }
@@ -55,7 +59,9 @@ function fetchUserIdByUsername(username) {
                 localStorage.setItem('userId', user.id);
                 loadBorrowRecords(user.id);
                 loadSearchHistory(user.id);
-            } else {
+                loadBookSubmissions(user.id);
+            } 
+            else {
                 throw new Error('未找到用户信息');
             }
         })
@@ -66,6 +72,182 @@ function fetchUserIdByUsername(username) {
             document.getElementById('searchHistoryList').innerHTML = 
                 '<div class="no-records">无法加载搜索历史：用户信息不完整</div>';
         });
+}
+
+
+function loadBookSubmissions(userId) {
+    console.log('开始加载图书提交记录，用户ID:', userId);
+    
+    // 显示加载中状态
+    document.getElementById('bookSubmissionsList').innerHTML = 
+        '<div class="no-records">加载中...</div>';
+    
+    // 调用API获取提交记录
+    fetch(`/api/submissions/my?userId=${userId}&page=0&size=5`, {
+        headers: {
+            'X-User-Id': userId.toString()
+        }
+    })
+    .then(response => {
+        console.log('提交记录响应状态:', response.status);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('提交记录API返回数据:', data);
+        if (data.success && data.submissions) {
+            console.log('成功加载提交记录，数量:', data.submissions.length);
+            displayBookSubmissions(data.submissions);
+        } else {
+            console.log('无提交记录数据');
+            document.getElementById('bookSubmissionsList').innerHTML = 
+                '<div class="no-records">暂无图书提交记录</div>';
+        }
+    })
+    .catch(error => {
+        console.error('加载图书提交记录失败:', error);
+        document.getElementById('bookSubmissionsList').innerHTML = 
+            '<div class="no-records">加载失败，请稍后重试</div>';
+    });
+}
+
+// 新增：显示图书提交记录
+function displayBookSubmissions(submissions) {
+    const submissionsContainer = document.getElementById('bookSubmissionsList');
+    
+    if (!submissions || submissions.length === 0) {
+        submissionsContainer.innerHTML = '<div class="no-records">暂无图书提交记录</div>';
+        return;
+    }
+    
+    submissionsContainer.innerHTML = submissions.map(submission => {
+        const submitTime = formatDateTime(submission.submitTime);
+        const status = getSubmissionStatus(submission);
+        const statusText = getStatusText(submission);
+        const statusClass = getStatusClass(submission);
+        
+        return `
+            <div class="submission-card" onclick="viewSubmissionDetail(${submission.id})">
+                <div class="submission-info">
+                    <div class="submission-title">${submission.title || '无标题'}</div>
+                    <div class="submission-detail">
+                        <strong>作者：</strong>${submission.author || '未知'}
+                    </div>
+                    <div class="submission-detail">
+                        <strong>ISBN：</strong>${submission.isbn || '未提供'}
+                    </div>
+                    <div class="submission-detail">
+                        <strong>提交时间：</strong>${submitTime}
+                    </div>
+                    <span class="submission-status ${statusClass}">${statusText}</span>
+                </div>
+                <div class="submission-actions">
+                    ${status === 'pending' ? 
+                        `<button class="submission-edit-btn" onclick="event.stopPropagation(); editSubmission(${submission.id})">
+                            编辑
+                        </button>` : ''}
+                    ${status === 'pending' ? 
+                        `<button class="submission-delete-btn" onclick="event.stopPropagation(); deleteSubmission(${submission.id})">
+                            删除
+                        </button>` : 
+                        `<button class="submission-delete-btn" disabled>
+                            已处理
+                        </button>`}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// 新增：获取提交状态
+function getSubmissionStatus(submission) {
+    if (submission.status) {
+        return submission.status.toLowerCase();
+    }
+    
+    // 如果没有status字段，根据其他字段判断
+    if (submission.reviewTime) {
+        return submission.approved ? 'approved' : 'rejected';
+    }
+    
+    return 'pending';
+}
+
+// 新增：获取状态文本
+function getStatusText(submission) {
+    const status = getSubmissionStatus(submission);
+    
+    const statusMap = {
+        'pending': '待审核',
+        'approved': '审核通过',
+        'rejected': '审核不通过',
+        'processing': '处理中'
+    };
+    
+    return statusMap[status] || '未知状态';
+}
+
+// 新增：获取状态CSS类
+function getStatusClass(submission) {
+    const status = getSubmissionStatus(submission);
+    
+    const classMap = {
+        'pending': 'status-pending',
+        'approved': 'status-approved',
+        'rejected': 'status-rejected',
+        'processing': 'status-processing'
+    };
+    
+    return classMap[status] || 'status-pending';
+}
+
+// 新增：查看提交详情
+function viewSubmissionDetail(submissionId) {
+    // 这里可以跳转到详情页面或显示模态框
+    // 我们先简单实现一个跳转到详情页
+    window.location.href = `/booksubmission/detail?id=${submissionId}`;
+}
+
+// 新增：编辑提交（只有待审核状态可以编辑）
+function editSubmission(submissionId) {
+    // 跳转到编辑页面
+    window.location.href = `/booksubmission/edit?id=${submissionId}`;
+}
+
+// 新增：删除提交（只有待审核状态可以删除）
+function deleteSubmission(submissionId) {
+    if (!confirm('确定要删除这条提交记录吗？删除后不可恢复。')) {
+        return;
+    }
+    
+    // 这里需要调用删除接口，假设接口为 /api/submissions/{id}
+    fetch(`/api/submissions/${submissionId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-User-Id': currentUserId.toString()
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('提交记录已删除');
+            loadBookSubmissions(currentUserId); // 重新加载
+        } else {
+            alert('删除失败: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('删除提交记录失败:', error);
+        alert('删除失败，请稍后重试');
+    });
+}
+
+// 新增：查看全部提交
+function viewAllSubmissions() {
+    // 跳转到提交记录列表页面
+    window.location.href = '/booksubmission/list';
 }
 
 // 加载借阅记录
