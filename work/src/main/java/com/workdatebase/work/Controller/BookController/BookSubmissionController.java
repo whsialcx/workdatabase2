@@ -94,14 +94,4 @@ public class BookSubmissionController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    
-    // 用户取消提交
-    @PutMapping("/{submissionId}/cancel")
-    public ResponseEntity<Map<String, Object>> cancelSubmission(
-            @PathVariable Long submissionId,
-            @RequestHeader("X-User-Id") Long userId) {
-        
-        Map<String, Object> result = submissionService.cancelSubmission(submissionId, userId);
-        return ResponseEntity.ok(result);
-    }
 }
