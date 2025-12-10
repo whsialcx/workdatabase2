@@ -210,12 +210,6 @@ function viewSubmissionDetail(submissionId) {
     window.location.href = `/booksubmission/detail?id=${submissionId}`;
 }
 
-// 新增：编辑提交（只有待审核状态可以编辑）
-function editSubmission(submissionId) {
-    // 跳转到编辑页面
-    window.location.href = `/booksubmission/edit?id=${submissionId}`;
-}
-
 // 新增：删除提交（只有待审核状态可以删除）
 function deleteSubmission(submissionId) {
     if (!confirm('确定要删除这条提交记录吗？删除后不可恢复。')) {
