@@ -389,7 +389,8 @@ public class BookController {
             response.put("data", stats);
             
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "获取统计信息失败: " + e.getMessage());
@@ -397,7 +398,7 @@ public class BookController {
         }
     }
 
-        @GetMapping("/{id}/statistics")
+    @GetMapping("/{id}/statistics")
     public ResponseEntity<Map<String, Object>> getBookStatistics(@PathVariable Long id) {
         Map<String, Object> stats = new HashMap<>();
         
@@ -416,7 +417,8 @@ public class BookController {
 
     // 获取相关图书
     @GetMapping("/{id}/related")
-    public ResponseEntity<List<Book>> getRelatedBooks(@PathVariable Long id) {
+    public ResponseEntity<List<Book>> getRelatedBooks(@PathVariable Long id) 
+    {
         try {
             Optional<Book> currentBook = bookService.findById(id);
             if (currentBook.isEmpty()) {
@@ -484,7 +486,9 @@ public class BookController {
             response.put("book", updatedBook);
             return ResponseEntity.ok(response);
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "更新封面失败: " + e.getMessage());

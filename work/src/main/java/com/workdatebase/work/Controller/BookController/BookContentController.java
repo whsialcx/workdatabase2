@@ -66,28 +66,6 @@ public class BookContentController {
         }
     }
     
-    // 获取图书内容信息
-    @GetMapping("/{bookId}")
-    public ResponseEntity<Map<String, Object>> getBookContentInfo(@PathVariable Long bookId) {
-        Optional<BookContent> contentOpt = bookContentService.getBookContent(bookId);
-        
-        Map<String, Object> response = new HashMap<>();
-        
-        if (contentOpt.isPresent()) {
-            BookContent content = contentOpt.get();
-            response.put("success", true);
-            response.put("hasContent", true);
-            response.put("content", content);
-            response.put("formattedFileSize", content.getFormattedFileSize());
-        } else {
-            response.put("success", true);
-            response.put("hasContent", false);
-            response.put("message", "该图书暂无在线内容");
-        }
-        
-        return ResponseEntity.ok(response);
-    }
-    
     // 在线阅读（获取内容）
     @GetMapping("/{bookId}/read")
     public ResponseEntity<Map<String, Object>> readBookContent(

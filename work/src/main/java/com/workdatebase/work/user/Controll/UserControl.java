@@ -7,9 +7,6 @@ import com.workdatebase.work.repository.UserRepository;
 import com.workdatebase.work.entity.Status.BookStatus;
 import com.workdatebase.work.Service.BookService;
 import com.workdatebase.work.Service.AuthService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,29 +35,12 @@ public class UserControl {
         this.bookRecordRepository = bookRecordRepository;
     }
 
-    // 查询所有图书（分页）
-    @GetMapping("/books")
-    public ResponseEntity<Page<Book>> getAllBooks(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) 
-    {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(bookService.getBooks(pageable));
-    }
-
     // 根据ID查询图书
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookService.findById(id);
         return book.map(ResponseEntity::ok)
                   .orElse(ResponseEntity.notFound().build());
-    }
-
-    // 根据标题搜索图书
-    @GetMapping("/books/search")
-    public ResponseEntity<List<Book>> searchBooks(@RequestParam String title) 
-    {
-        return ResponseEntity.ok(bookService.findByTitleContaining(title));
     }
 
     // 根据状态查询图书

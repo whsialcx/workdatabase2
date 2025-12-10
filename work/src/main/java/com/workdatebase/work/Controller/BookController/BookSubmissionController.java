@@ -48,7 +48,8 @@ public class BookSubmissionController {
             
             return ResponseEntity.ok(response);
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "提交失败: " + e.getMessage());
@@ -76,7 +77,8 @@ public class BookSubmissionController {
             
             return ResponseEntity.ok(response);
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "获取提交记录失败: " + e.getMessage());
