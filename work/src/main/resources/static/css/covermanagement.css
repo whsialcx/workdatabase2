@@ -1,5 +1,5 @@
 /* cover-management.css - 封面管理样式 */
-
+@import url('./global.css');
 /* 封面单元格样式 */
 .book-cover-cell {
     display: flex;

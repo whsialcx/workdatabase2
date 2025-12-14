@@ -1,4 +1,5 @@
-/* 增强的管理页面样式 */
+@import url('./global.css');
+
 :root {
     --primary-color: #3498db;
     --primary-dark: #2980b9;
@@ -167,9 +168,11 @@ header h1 {
 
 /* 表格样式 */
 .borrow-table-container {
-    overflow-x: auto;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-color);
+    border: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    background: #fff;
+    overflow: hidden; /* 圆角遮罩 */
 }
 
 .styled-table {
@@ -178,11 +181,22 @@ header h1 {
     margin-bottom: 0;
 }
 
-.styled-table th,
+.styled-table th {
+    background-color: #f8f9fa;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 18px 15px;
+    border-bottom: 2px solid #edf2f7;
+}
+
 .styled-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
+    padding: 20px 15px;
+    color: var(--text-main);
+    border-bottom: 1px solid #edf2f7;
+    font-size: 14px;
 }
 
 .styled-table th {
@@ -194,12 +208,17 @@ header h1 {
     z-index: 10;
 }
 
+.styled-table tbody tr {
+    transition: background 0.2s;
+}
+
 .styled-table tbody tr:nth-child(even) {
     background-color: #fcfcfc;
 }
 
 .styled-table tbody tr:hover {
-    background-color: rgba(52, 152, 219, 0.05);
+    background-color: var(--primary-light) !important; /* 悬浮高亮 */
+    transform: scale(1); /* 修复可能的抖动 */
 }
 
 .styled-table tbody tr:last-child td {
@@ -236,37 +255,22 @@ header h1 {
 
 /* 按钮样式 */
 .action-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 8px; /* 方圆形 */
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    margin-right: 5px;
+    transition: all 0.2s;
 }
 
-.edit-btn {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: var(--primary-color);
-}
+.edit-btn { background: rgba(52, 152, 219, 0.1); color: var(--primary); }
+.edit-btn:hover { background: var(--primary); color: white; transform: rotate(15deg); }
 
-.edit-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.delete-btn {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: var(--danger-color);
-}
-
-.delete-btn:hover {
-    background-color: var(--danger-color);
-    color: white;
-}
+.delete-btn { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
+.delete-btn:hover { background: var(--danger); color: white; transform: scale(1.1); }
 
 .return-btn {
     background-color: rgba(46, 204, 113, 0.1);

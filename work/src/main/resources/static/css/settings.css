@@ -1,3 +1,4 @@
+@import url('./global.css');
 /* 基础样式，确保背景和布局与 dashboard 一致 */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

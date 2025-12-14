@@ -1,5 +1,5 @@
 /* bookmanagement.css - 基础样式 */
-
+@import url('./global.css');
 * {
     margin: 0;
     padding: 0;

@@ -1,3 +1,4 @@
+@import url('./global.css');
 :root {
     --primary: #2c3e50;
     --secondary: #3498db;
@@ -7,6 +8,9 @@
     --dark: #2c3e50;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
+     --text-dark: #2c3e50;
+    --text-medium: #34495e;
+    --text-light: #e74c3c;
 }
 
 * {
@@ -20,37 +24,27 @@ body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
     padding: 20px;
-    color: var(--dark);
+    color: var(--text-dark);
 }
 
 .dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop);
+    -webkit-backdrop-filter: var(--backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--radius-lg);
+    margin-top: 20px;
 }
 
 .dashboard-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: white;
-    padding: 25px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+    background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 30px 40px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
-.dashboard-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--accent);
-}
+.dashboard-header::after { display: none; /* 移除之前的底部线条 */ }
 
 .header-title {
     display: flex;
@@ -157,7 +151,8 @@ body {
 
 .info-value {
     flex: 1;
-    color: #555;
+    color: var(--text-medium); /* 改为中等深度的颜色，提高可读性 */
+    font-weight: 500; /* 稍微加粗，增强可读性 */
 }
 
 .nav-section {
@@ -186,30 +181,24 @@ body {
 }
 
 .nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 15px;
-    background: var(--light);
-    color: var(--primary);
-    text-decoration: none;
-    border-radius: 10px;
-    transition: var(--transition);
-    text-align: center;
-    border: 2px solid transparent;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-medium); /* 使用更深的文本颜色 */
+    border: 1px solid transparent;
 }
 
 .nav-link:hover {
-    background: var(--secondary);
+    background: var(--primary); /* 纯色背景更干净 */
     color: white;
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
 }
 
 .nav-link i {
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: 32px;
+    margin-bottom: 15px;
 }
 
 .logout-section {
@@ -246,18 +235,31 @@ body {
 }
 
 .stat-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    text-align: center;
+    background: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
     transition: var(--transition);
-    border-top: 4px solid var(--secondary);
+    position: relative;
+    overflow: hidden;
+    border-top: none; /* 移除旧的顶部边框 */
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0.8;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
 }
 
 .stat-icon {
@@ -267,15 +269,15 @@ body {
 }
 
 .stat-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 5px;
+    font-size: 32px;
+    color: var(--text-dark); /* 使用深色文本，确保对比度 */
+    font-weight: 700; /* 加粗提高可读性 */
 }
 
 .stat-label {
     font-size: 14px;
-    color: #777;
+    color: var(--text-medium); /* 使用中等深度的颜色 */
+    font-weight: 500;
 }
 
 .quick-actions {
@@ -311,12 +313,13 @@ body {
     justify-content: center;
     padding: 15px;
     background: var(--light);
-    color: var(--primary);
+    color: var(--text-dark);
     text-decoration: none;
     border-radius: 10px;
     transition: var(--transition);
     text-align: center;
     border: 2px solid transparent;
+    font-weight: 500;
 }
 
 .action-btn:hover {
@@ -381,9 +384,12 @@ body {
 
 .activity-text {
     margin-bottom: 5px;
+    color: var(--text-medium); /* 使用中等深度的颜色 */
+    font-weight: 500; /* 稍微加粗 */
 }
 
 .activity-time {
     font-size: 12px;
-    color: #777;
+    color: var(--text-light); /* 使用新定义的浅色，但仍保持可读性 */
+    font-weight: 500; /* 稍微加粗 */
 }

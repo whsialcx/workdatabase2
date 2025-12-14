@@ -1,3 +1,4 @@
+@import url('./global.css');
 * {
     margin: 0;
     padding: 0;
@@ -91,13 +92,11 @@ body {
 }
 
 .search-section {
-    margin: 30px 0;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px; /* 变成胶囊形状 */
+    padding: 10px 30px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
 .search-section h2 {
@@ -116,31 +115,20 @@ body {
 }
 
 .search-input {
-    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 18px;
     padding: 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 16px;
-    transition: all 0.3s ease;
 }
 
 .search-input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    outline: none;
+    box-shadow: none; /* 移除默认阴影，保持干净 */
 }
 
 .search-btn {
-    padding: 15px 25px;
-    background: linear-gradient(to right, #3498db, #2980b9);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    border-radius: 40px; /* 按钮也变圆 */
+    padding: 12px 30px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
 }
 
 .search-btn:hover {
@@ -157,73 +145,76 @@ body {
 }
 
 .book-card {
+    border-radius: var(--radius-md);
+    background: #fff;
     border: none;
-    border-radius: 12px;
-    padding: 20px;
-    background: white;
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 0; /* 移除内边距，为了让封面填满顶部 */
+    overflow: hidden; /* 防止图片溢出 */
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    position: relative;
 }
 
 .book-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    z-index: 10;
 }
 
-.book-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(to right, #3498db, #8e44ad);
+.book-card::before { display: none; }
+
+.book-card-header {
+    height: 140px;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); /* 淡雅渐变 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.book-card-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .book-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 12px;
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--text-main);
     line-height: 1.4;
 }
 
 .book-info {
-    color: #666;
-    margin-bottom: 8px;
-    font-size: 15px;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
 }
 
 .card-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px dashed #eaeaea;
+    border-top: 1px solid #f1f2f6;
+    padding: 15px 20px;
+    margin-top: auto;
+    background: #fafbfc;
 }
 
 .book-status {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
+    padding: 6px 14px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .status-available {
-    background: #d4edda;
-    color: #155724;
+    background: rgba(0, 184, 148, 0.15);
+    color: #00b894;
 }
 
 .status-borrowed {
-    background: #f8d7da;
-    color: #721c24;
+    background: rgba(255, 118, 117, 0.15);
+    color: #d63031;
 }
 
 .borrow-btn {
