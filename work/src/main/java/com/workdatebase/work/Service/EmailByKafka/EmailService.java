@@ -1,4 +1,4 @@
-package com.workdatebase.work.Service;
+package com.workdatebase.work.Service.EmailByKafka;
 
 import com.workdatebase.work.entity.EmailMessage;
 import com.workdatebase.work.entity.Status.EmailType;

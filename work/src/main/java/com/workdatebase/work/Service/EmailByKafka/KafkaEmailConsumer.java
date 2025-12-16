@@ -1,4 +1,4 @@
-package com.workdatebase.work.Service;
+package com.workdatebase.work.Service.EmailByKafka;
 import com.workdatebase.work.entity.EmailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

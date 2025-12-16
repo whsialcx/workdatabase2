@@ -1,4 +1,4 @@
-package com.workdatebase.work.Service;
+package com.workdatebase.work.Service.EmailByKafka;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

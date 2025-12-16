@@ -1,5 +1,6 @@
 package com.workdatebase.work.Service;
 
+import com.workdatebase.work.Service.EmailByKafka.EmailService;
 import com.workdatebase.work.entity.Admin;
 import com.workdatebase.work.entity.User;
 import com.workdatebase.work.entity.VerificationToken;

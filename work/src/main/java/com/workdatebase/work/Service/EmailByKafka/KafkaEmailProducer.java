@@ -1,4 +1,4 @@
-package com.workdatebase.work.Service;
+package com.workdatebase.work.Service.EmailByKafka;
 import com.workdatebase.work.entity.EmailMessage;
 
 import jakarta.validation.constraints.Email;
