@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     private final JavaMailSender mailSender;
-
+    //设置默认邮箱
     @Value("${app.verification.admin-email:3247365462@qq.com}")
     private String adminEmail;
 
@@ -43,10 +43,9 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("管理员注册成功");
         message.setText(
-            "尊敬的用户 " + username + "：\n\n" +
+            "用户 " + username + "：\n\n" +
             "您的管理员账户注册已成功！\n" +
-            "您现在可以使用管理员账户登录系统。\n\n" +
-            "谢谢！"
+            "您现在可以使用管理员账户登录系统。\n\n"
         );
         
         mailSender.send(message);
@@ -58,10 +57,9 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("管理员注册未通过");
         message.setText(
-            "尊敬的用户 " + username + "：\n\n" +
-            "很抱歉，您的管理员账户注册申请未被批准。\n" +
-            "如有疑问，请联系系统管理员。\n\n" +
-            "谢谢！"
+            "用户 " + username + "：\n\n" +
+            "您的管理员账户注册申请未被批准。\n" +
+            "如有疑问，请联系系统管理员。\n\n"
         );
         
         mailSender.send(message);
@@ -73,10 +71,8 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("图书提交审核通过");
         message.setText(
-            "尊敬的用户 " + username + "：\n\n" +
-            "您提交的图书《" + bookTitle + "》已通过审核并上架！\n" +
-            "感谢您为图书馆资源建设做出的贡献。\n\n" +
-            "谢谢！"
+            "用户 " + username + "：\n\n" +
+            "您提交的图书《" + bookTitle + "》已通过审核并上架！\n"
         );
         
         mailSender.send(message);
@@ -88,12 +84,10 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("图书提交审核结果");
         message.setText(
-            "尊敬的用户 " + username + "：\n\n" +
+            "用户 " + username + "：\n\n" +
             "您提交的图书《" + bookTitle + "》未通过审核。\n" +
-            "审核意见：" + (comment != null ? comment : "不符合上架标准") + "\n\n" +
-            "谢谢！"
+            "审核意见：" + (comment != null ? comment : "不符合上架标准") + "\n\n"
         );
-        
         mailSender.send(message);
     }
 }

@@ -47,7 +47,6 @@ public class VerificationToken {
         this.createdAt = LocalDateTime.now(); // 自动设置创建时间
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

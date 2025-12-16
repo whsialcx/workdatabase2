@@ -198,11 +198,11 @@ public class AuthService {
     public Map<String, Object> verifyAdminRegistration(String token, boolean approved) 
     {
         Map<String, Object> result = new HashMap<>();
-        
-        try 
+        try
         {
             Optional<VerificationToken> tokenOpt = verificationTokenRepository.findByToken(token);
-            if (tokenOpt.isEmpty()) {
+            if (tokenOpt.isEmpty()) 
+            {
                 result.put("success", false);
                 result.put("message", "无效的验证令牌");
                 return result;
@@ -228,20 +228,24 @@ public class AuthService {
                 return result;
             }
 
-            if (approved) {
-                // 创建管理员账户（密码已经是加密后的）
+            if (approved) 
+            {
+                // 创建管理员账户（密码已经是加密的）
                 Admin admin = new Admin(
                     verificationToken.getUsername(),
-                    verificationToken.getPassword(), // 这里存储的是加密后的密码
+                    verificationToken.getPassword(), // 加密密码
                     verificationToken.getEmail()
                 );
                 adminRepository.save(admin);
 
-                // 发送批准通知
-                try {
+                // 发送批准通知, SMTP服务
+                try 
+                {
                     emailService.sendApprovalNotification(verificationToken.getEmail(), verificationToken.getUsername());
                     System.out.println("批准通知邮件发送成功");
-                } catch (Exception e) {
+                } 
+                catch (Exception e)
+                {
                     System.err.println("批准通知邮件发送失败: " + e.getMessage());
                     result.put("emailSent", false);
                     result.put("emailError", e.getMessage());
@@ -252,28 +256,33 @@ public class AuthService {
                 
                 System.out.println("管理员账户创建成功: " + verificationToken.getUsername() + 
                                 ", 邮箱: " + verificationToken.getEmail());
-            } else {
+            } 
+            else 
+            {
                 // 发送拒绝通知
-                try {
+                try 
+                {
                     emailService.sendRejectionNotification(verificationToken.getEmail(), verificationToken.getUsername());
                     System.out.println("拒绝通知邮件发送成功");
-                } catch (Exception e) {
+                } 
+                catch (Exception e) 
+                {
                     System.err.println("拒绝通知邮件发送失败: " + e.getMessage());
                     result.put("emailSent", false);
                     result.put("emailError", e.getMessage());
                 }
-                
                 result.put("success", true);
                 result.put("message", "管理员注册申请已被拒绝");
             }
-
             // 标记令牌为已使用
             verificationToken.setUsed(true);
             verificationTokenRepository.save(verificationToken);
 
             return result;
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.err.println("验证管理员注册时发生错误: " + e.getMessage());
             e.printStackTrace();
             
