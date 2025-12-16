@@ -19,7 +19,7 @@ public class OpenAiConfig {
                     .version("1.0")
                     .description("图书管理系统接口文档，包含用户管理、图书管理和借阅管理等功能的API说明。")
                     .contact(new Contact()
-                        .name("图书管理系统开发团队")
+                        .name("图书管理系统开发")
                         .email("3247365462@qq.com")))
                     .externalDocs(new ExternalDocumentation()
                         .description("项目GitHub地址")

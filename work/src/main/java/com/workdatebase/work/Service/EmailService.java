@@ -1,93 +1,77 @@
 package com.workdatebase.work.Service;
 
+import com.workdatebase.work.entity.EmailMessage;
+import com.workdatebase.work.entity.Status.EmailType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
-    //设置默认邮箱
+    private final KafkaEmailProducer kafkaEmailProducer;
+    
     @Value("${app.verification.admin-email:3247365462@qq.com}")
     private String adminEmail;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public EmailService(KafkaEmailProducer kafkaEmailProducer) {
+        this.kafkaEmailProducer = kafkaEmailProducer;
     }
 
-    public void sendVerificationRequest(String applicantEmail, String applicantUsername, String token) 
-    {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(adminEmail);
-        message.setSubject("管理员注册申请确认");
-        message.setText(
-            "请点击以下链接完成注册确认：\n\n" +
-            "批准注册：\n" +
-            "http://localhost:8080/confirm-registration?token=" + token + "&action=approve\n\n" +
-            "拒绝注册：\n" +
-            "http://localhost:8080/confirm-registration?token=" + token + "&action=reject"
+    public void sendVerificationRequest(String applicantEmail, String applicantUsername, String token) {
+        EmailMessage message = new EmailMessage(
+            adminEmail,  // 发送给管理员
+            applicantUsername,
+            null,        // 图书标题为空
+            token,       // token放在comment字段
+            EmailType.VERIFICATION_REQUEST  // 修改这里
         );
-        
-        mailSender.send(message);
+        kafkaEmailProducer.sendEmailMessage(message);
     }
 
     public void sendApprovalNotification(String toEmail, String username) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(toEmail);
-        message.setSubject("管理员注册成功");
-        message.setText(
-            "用户 " + username + "：\n\n" +
-            "您的管理员账户注册已成功！\n" +
-            "您现在可以使用管理员账户登录系统。\n\n"
+        EmailMessage message = new EmailMessage(
+            toEmail,
+            username,
+            null,
+            null,
+            EmailType.APPROVAL_NOTIFICATION  // 修改这里
         );
-        
-        mailSender.send(message);
+        kafkaEmailProducer.sendEmailMessage(message);
     }
 
     public void sendRejectionNotification(String toEmail, String username) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(toEmail);
-        message.setSubject("管理员注册未通过");
-        message.setText(
-            "用户 " + username + "：\n\n" +
-            "您的管理员账户注册申请未被批准。\n" +
-            "如有疑问，请联系系统管理员。\n\n"
+        EmailMessage message = new EmailMessage(
+            toEmail,
+            username,
+            null,
+            null,
+            EmailType.REJECTION_NOTIFICATION  // 修改这里
         );
-        
-        mailSender.send(message);
+        kafkaEmailProducer.sendEmailMessage(message);
     }
 
     public void sendSubmissionApprovalNotification(String toEmail, String username, String bookTitle) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(toEmail);
-        message.setSubject("图书提交审核通过");
-        message.setText(
-            "用户 " + username + "：\n\n" +
-            "您提交的图书《" + bookTitle + "》已通过审核并上架！\n"
+        EmailMessage message = new EmailMessage(
+            toEmail,
+            username,
+            bookTitle,
+            null,
+            EmailType.SUBMISSION_APPROVAL_NOTIFICATION  // 修改这里
         );
-        
-        mailSender.send(message);
+        kafkaEmailProducer.sendEmailMessage(message);
     }
 
     public void sendSubmissionRejectionNotification(String toEmail, String username, String bookTitle, String comment) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(toEmail);
-        message.setSubject("图书提交审核结果");
-        message.setText(
-            "用户 " + username + "：\n\n" +
-            "您提交的图书《" + bookTitle + "》未通过审核。\n" +
-            "审核意见：" + (comment != null ? comment : "不符合上架标准") + "\n\n"
+        EmailMessage message = new EmailMessage(
+            toEmail,
+            username,
+            bookTitle,
+            comment,
+            EmailType.SUBMISSION_REJECTION_NOTIFICATION  // 修改这里
         );
-        mailSender.send(message);
+        kafkaEmailProducer.sendEmailMessage(message);
     }
 }
