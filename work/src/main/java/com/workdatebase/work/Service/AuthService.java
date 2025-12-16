@@ -51,12 +51,15 @@ public class AuthService {
         }
     }
 
-    public Map<String, Object> login(String name, String password, String userType) {
-        Map<String, Object> result = new HashMap<>();
-        
-        if ("admin".equals(userType)) {
-            Optional<Admin> admin = adminRepository.findByAdminname(name);
-            if (admin.isPresent() && passwordEncoder.matches(password, admin.get().getPassword())) {
+    public Map<String, Object> login(String name, String password, String userType) 
+    {
+        Map<String, Object> result = new HashMap<>();    
+        if ("admin".equals(userType))// 如果是以管理员身份登录
+        {
+            Optional<Admin> admin = adminRepository.findByAdminname(name); 
+            // 如果管理员表存在admin,并且密码是相同的
+            if (admin.isPresent() && passwordEncoder.matches(password, admin.get().getPassword())) 
+            {
                 result.put("success", true);
                 result.put("message", "管理员登录成功");
                 result.put("role", "admin");
@@ -64,7 +67,9 @@ public class AuthService {
                 result.put("userId", admin.get().getId());
                 return result;
             }
-        } else {
+        } 
+        else //用户登录
+        {
             Optional<User> user = userRepository.findByUsername(name);
             if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
                 result.put("success", true);
@@ -75,7 +80,7 @@ public class AuthService {
                 return result;
             }
         }
-        
+        // 登录失败
         result.put("success", false);
         result.put("message", "用户名或密码错误");
         return result;
@@ -189,10 +194,13 @@ public class AuthService {
         return result;
     }
     
-    public Map<String, Object> verifyAdminRegistration(String token, boolean approved) {
+    // 管理员注册是否成功
+    public Map<String, Object> verifyAdminRegistration(String token, boolean approved) 
+    {
         Map<String, Object> result = new HashMap<>();
         
-        try {
+        try 
+        {
             Optional<VerificationToken> tokenOpt = verificationTokenRepository.findByToken(token);
             if (tokenOpt.isEmpty()) {
                 result.put("success", false);

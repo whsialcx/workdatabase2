@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth")// 接口前缀
 @Tag(name = "用户认证", description = "用户登录、注册及管理员验证相关接口")
 public class AuthController {
     private final AuthService authService;
@@ -26,7 +26,6 @@ public class AuthController {
         String name = loginRequest.get("name");
         String password = loginRequest.get("password");
         String userType = loginRequest.get("userType");
-
         Map<String, Object> result = authService.login(name, password, userType);
         return ResponseEntity.ok(result);
     }
@@ -75,6 +74,7 @@ public class AuthController {
         return ResponseEntity.ok(result);
     }
 
+    // 管理员注册二次确认
     @GetMapping("/verifyadmin")
     public ResponseEntity<Map<String, Object>> verifyAdminRegistration(
             @RequestParam String token,

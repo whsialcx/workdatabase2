@@ -42,6 +42,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>compile</scope>
@@ -119,7 +124,9 @@
    </dependency>
  </dependencies>
 
+	<!-- 打包maven项目,filename指定项目名称 mvn clean package -->
 	<build>
+	<finalName>library</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
