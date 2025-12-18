@@ -1,6 +1,7 @@
 // BookSubmissionService.java
 package com.workdatebase.work.Service;
 
+import com.workdatebase.work.Service.EmailByKafka.EmailService;
 import com.workdatebase.work.entity.Book;
 import com.workdatebase.work.entity.BookSubmission;
 import com.workdatebase.work.entity.Status.SubmissionStatus;
@@ -47,14 +48,16 @@ public class BookSubmissionService {
         Map<String, Object> result = new HashMap<>();
         
         Optional<BookSubmission> submissionOpt = submissionRepository.findById(submissionId);
-        if (submissionOpt.isEmpty()) {
+        if (submissionOpt.isEmpty()) 
+        {
             result.put("success", false);
             result.put("message", "图书提交不存在");
             return result;
         }
         
         BookSubmission submission = submissionOpt.get();
-        if (submission.getStatus() != SubmissionStatus.PENDING) {
+        if (submission.getStatus() != SubmissionStatus.PENDING) 
+        {
             result.put("success", false);
             result.put("message", "该提交已被处理");
             return result;
@@ -63,9 +66,11 @@ public class BookSubmissionService {
         submission.setReviewTime(LocalDateTime.now());
         submission.setReviewComment(comment);
         
-        if (approved) {
+        if (approved) 
+        {
             // 审核通过，创建图书
-            try {
+            try 
+            {
                 Book book = createBookFromSubmission(submission);
                 Book savedBook = bookService.addBook(book);
                 
@@ -79,12 +84,16 @@ public class BookSubmissionService {
                 result.put("message", "图书审核通过并已上架");
                 result.put("book", savedBook);
                 
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 result.put("success", false);
                 result.put("message", "创建图书失败: " + e.getMessage());
                 return result;
             }
-        } else {
+        } 
+        else 
+        {
             // 审核拒绝
             submission.setStatus(SubmissionStatus.REJECTED);
             
@@ -108,7 +117,8 @@ public class BookSubmissionService {
         book.setIntroduction(submission.getDescription());
         
         // 复制提交的封面（如果有）
-        if (submission.getCoverBase64() != null && !submission.getCoverBase64().trim().isEmpty()) {
+        if (submission.getCoverBase64() != null && !submission.getCoverBase64().trim().isEmpty()) 
+        {
             book.setCoverBase64(submission.getCoverBase64().trim());
         }
 
@@ -122,13 +132,16 @@ public class BookSubmissionService {
     
     // 发送审核通过通知
     private void sendApprovalNotification(BookSubmission submission) {
-        try {
+        try 
+        {
             String userEmail = submission.getSubmitUser().getEmail();
             String username = submission.getSubmitUser().getUsername();
             String bookTitle = submission.getTitle();
             
             emailService.sendSubmissionApprovalNotification(userEmail, username, bookTitle);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             // 邮件发送失败不影响主要业务流程
             System.err.println("发送审核通过通知失败: " + e.getMessage());
         }
@@ -136,14 +149,17 @@ public class BookSubmissionService {
     
     // 发送审核拒绝通知
     private void sendRejectionNotification(BookSubmission submission) {
-        try {
+        try 
+        {
             String userEmail = submission.getSubmitUser().getEmail();
             String username = submission.getSubmitUser().getUsername();
             String bookTitle = submission.getTitle();
             String comment = submission.getReviewComment();
             
             emailService.sendSubmissionRejectionNotification(userEmail, username, bookTitle, comment);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.err.println("发送审核拒绝通知失败: " + e.getMessage());
         }
     }
@@ -154,20 +170,23 @@ public class BookSubmissionService {
         Map<String, Object> result = new HashMap<>();
         
         Optional<BookSubmission> submissionOpt = submissionRepository.findById(submissionId);
-        if (submissionOpt.isEmpty()) {
+        if (submissionOpt.isEmpty()) 
+        {
             result.put("success", false);
             result.put("message", "图书提交不存在");
             return result;
         }
         
         BookSubmission submission = submissionOpt.get();
-        if (!submission.getSubmitUser().getId().equals(userId)) {
+        if (!submission.getSubmitUser().getId().equals(userId)) 
+        {
             result.put("success", false);
             result.put("message", "无权操作此提交");
             return result;
         }
         
-        if (submission.getStatus() != SubmissionStatus.PENDING) {
+        if (submission.getStatus() != SubmissionStatus.PENDING) 
+        {
             result.put("success", false);
             result.put("message", "只能取消待审核的提交");
             return result;

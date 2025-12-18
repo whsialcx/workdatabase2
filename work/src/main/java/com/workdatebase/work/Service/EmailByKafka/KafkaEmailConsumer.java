@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+@Component
 public class KafkaEmailConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaEmailConsumer.class);
