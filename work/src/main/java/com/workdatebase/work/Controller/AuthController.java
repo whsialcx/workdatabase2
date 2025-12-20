@@ -35,7 +35,8 @@ public class AuthController {
     {
         // 提取用户信息和用户类型
         String userType = (String) registerRequest.get("userType");
-        if (userType == null) {
+        if (userType == null) 
+        {
             userType = "user"; // 默认用户类型
         }
         

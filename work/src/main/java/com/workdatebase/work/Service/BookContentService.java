@@ -55,20 +55,23 @@ public class BookContentService {
             .orElseThrow(() -> new RuntimeException("图书不存在"));
         
         // 检查文件大小
-        if (file.getSize() > maxFileSize) {
+        if (file.getSize() > maxFileSize) 
+        {
             throw new RuntimeException("文件大小超过限制，最大允许 " + (maxFileSize / 1024 / 1024) + "MB");
         }
         
         // 检查文件类型
         String originalFilename = file.getOriginalFilename();
         String fileExtension = getFileExtension(originalFilename).toLowerCase();
-        if (!isAllowedFileType(fileExtension, contentType)) {
+        if (!isAllowedFileType(fileExtension, contentType)) 
+        {
             throw new RuntimeException("不支持的文件类型: " + fileExtension);
         }
         
         // 创建上传目录
         Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
+        if (!Files.exists(uploadPath)) 
+        {
             Files.createDirectories(uploadPath);
         }
         
@@ -83,14 +86,18 @@ public class BookContentService {
         Optional<BookContent> existingContent = bookContentRepository.findByBookId(bookId);
         BookContent bookContent;
         
-        if (existingContent.isPresent()) {
+        if (existingContent.isPresent()) 
+        {
             bookContent = existingContent.get();
             // 删除旧文件
-            if (bookContent.getFilePath() != null) {
+            if (bookContent.getFilePath() != null) 
+            {
                 Path oldFilePath = Paths.get(bookContent.getFilePath());
                 Files.deleteIfExists(oldFilePath);
             }
-        } else {
+        } 
+        else 
+        {
             bookContent = new BookContent();
             bookContent.setBook(book);
         }
@@ -106,13 +113,15 @@ public class BookContentService {
         // 如果是文本文件，提取文本内容用于搜索
         if (contentType == BookContent.ContentType.TXT || 
             contentType == BookContent.ContentType.HTML ||
-            contentType == BookContent.ContentType.MARKDOWN) {
+            contentType == BookContent.ContentType.MARKDOWN) 
+        {
             
             String textContent = extractTextContent(file);
             bookContent.setContentText(textContent);
             
             // 如果是TXT文件，尝试估算页数（假设每页2000字符）
-            if (contentType == BookContent.ContentType.TXT && textContent.length() > 0) {
+            if (contentType == BookContent.ContentType.TXT && textContent.length() > 0)
+            {
                 int estimatedPages = (int) Math.ceil(textContent.length() / 2000.0);
                 bookContent.setTotalPages(Math.max(1, estimatedPages));
             }
@@ -123,9 +132,12 @@ public class BookContentService {
     
     // 获取图书内容
     public Optional<BookContent> getBookContent(Long bookId) {
-        try {
+        try 
+        {
             return bookContentRepository.findByBookId(bookId);
-        } catch (Exception e) {
+        }
+        catch (Exception e) 
+        {
             // 如果发生异常（如表不存在），返回空
             return Optional.empty();
         }
@@ -135,9 +147,12 @@ public class BookContentService {
         Map<Long, Boolean> result = new HashMap<>();
         
         for (Long bookId : bookIds) {
-            try {
+            try 
+            {
                 result.put(bookId, bookContentRepository.findByBookId(bookId).isPresent());
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 // 如果发生异常，设为false
                 result.put(bookId, false);
             }
@@ -147,9 +162,12 @@ public class BookContentService {
     }
 
     public boolean hasBookContent(Long bookId) {
-        try {
+        try 
+        {
             return bookContentRepository.findByBookId(bookId).isPresent();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             // 如果发生异常（如表不存在），返回false
             return false;
         }
@@ -159,32 +177,31 @@ public class BookContentService {
     public boolean canUserReadContent(Long bookId, Long userId) {
         Optional<BookContent> contentOpt = bookContentRepository.findByBookId(bookId);
         
-        if (contentOpt.isEmpty()) {
+        if (contentOpt.isEmpty()) 
+        {
             return false; // 没有内容
         }
         
         BookContent content = contentOpt.get();
         
         // 如果是公开内容，任何人都可以阅读
-        if (Boolean.TRUE.equals(content.getIsPublic())) {
+        if (Boolean.TRUE.equals(content.getIsPublic())) 
+        {
             return true;
         }
         
         // 检查用户是否登录
-        if (userId == null) {
+        if (userId == null) 
+        {
             return false;
         }
         
         // 检查用户是否有借阅记录
         Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
+        if (userOpt.isEmpty()) 
+        {
             return false;
         }
-        
-        // 这里可以添加更复杂的权限检查逻辑
-        // 例如：检查用户是否借阅了该书，或者用户是否为VIP会员等
-        
-        // 暂时实现：已登录用户即可阅读非公开内容
         return true;
     }
     
@@ -197,9 +214,7 @@ public class BookContentService {
             
             // 更新查看计数
             bookContentRepository.incrementViewCount(content.getId());
-            
-            // 这里可以扩展：保存用户阅读进度到单独的表中
-            // saveReadingProgress(userId, bookId, currentPage);
+
         }
     }
     
@@ -209,7 +224,8 @@ public class BookContentService {
         
         Map<String, Object> result = new HashMap<>();
         
-        if (contentOpt.isEmpty()) {
+        if (contentOpt.isEmpty()) 
+        {
             result.put("success", false);
             result.put("message", "图书内容不存在");
             return result;
@@ -223,11 +239,13 @@ public class BookContentService {
         result.put("allowDownload", content.getAllowDownload());
         
         // 根据内容类型返回不同的数据
-        switch (content.getContentType()) {
+        switch (content.getContentType()) 
+        {
             case TXT:
             case HTML:
             case MARKDOWN:
-                if (content.getContentText() != null) {
+                if (content.getContentText() != null) 
+                {
                     String fullText = content.getContentText();
                     int totalChars = fullText.length();
                     int charsPerPage = 2000; // 每页大约2000字符
@@ -238,11 +256,13 @@ public class BookContentService {
                     int startIndex = (page - 1) * pageSize;
                     int endIndex = Math.min(startIndex + pageSize, totalChars);
                     
-                    if (startIndex >= totalChars) {
+                    if (startIndex >= totalChars) 
+                    {
                         result.put("currentPage", page);
                         result.put("content", "");
                         result.put("hasNext", false);
-                    } else {
+                    } 
+                    else {
                         String pageContent = fullText.substring(startIndex, endIndex);
                         result.put("currentPage", page);
                         result.put("content", pageContent);
@@ -273,7 +293,8 @@ public class BookContentService {
         Optional<BookContent> contentOpt = bookContentRepository.findByBookId(bookId);
         List<Map<String, Object>> results = new ArrayList<>();
         
-        if (contentOpt.isEmpty() || contentOpt.get().getContentText() == null) {
+        if (contentOpt.isEmpty() || contentOpt.get().getContentText() == null) 
+        {
             return results;
         }
         
@@ -286,7 +307,8 @@ public class BookContentService {
         
         int charsPerPage = 2000;
         
-        while (matcher.find()) {
+        while (matcher.find()) 
+        {
             Map<String, Object> match = new HashMap<>();
             int position = matcher.start();
             int page = (position / charsPerPage) + 1;
@@ -311,7 +333,8 @@ public class BookContentService {
     
     // 辅助方法
     private String getFileExtension(String filename) {
-        if (filename == null || filename.lastIndexOf(".") == -1) {
+        if (filename == null || filename.lastIndexOf(".") == -1) 
+        {
             return "";
         }
         return filename.substring(filename.lastIndexOf(".") + 1);

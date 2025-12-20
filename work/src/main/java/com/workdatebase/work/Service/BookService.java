@@ -137,11 +137,13 @@ public class BookService {
         BorrowRecord borrowRecord = bookRecordRepository.findById(borrowRecordId)
             .orElseThrow(() -> new RuntimeException("借阅记录不存在"));
         
-        if(borrowRecord.getReturnDate() != null) {
+        if(borrowRecord.getReturnDate() != null) 
+        {
             throw new RuntimeException("您已归还该书");
         }
         
-        if(borrowRecord.getRenewed()) {
+        if(borrowRecord.getRenewed()) 
+        {
             throw new RuntimeException("您已续借过一次，无法再次续借");
         }
         

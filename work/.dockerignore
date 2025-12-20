@@ -1,0 +1,17 @@
+.git
+.gitignore
+target/*.original
+*.log
+.DS_Store
+*.iml
+.idea/
+.project
+.classpath
+.settings/
+bin/
+src/
+pom.xml
+mvnw
+mvnw.cmd
+README.md
+docker-compose.*.yml

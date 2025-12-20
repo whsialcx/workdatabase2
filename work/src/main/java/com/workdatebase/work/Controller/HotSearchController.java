@@ -66,7 +66,8 @@ public class HotSearchController {
 
     @DeleteMapping("/history")
     public ResponseEntity<Map<String, Object>> clearUserSearchHistory(@RequestParam Long userId) {
-        try {
+        try 
+        {
             hotSearchService.clearUserSearchHistory(userId);
             
             Map<String, Object> response = new HashMap<>();
@@ -74,7 +75,8 @@ public class HotSearchController {
             response.put("message", "搜索历史已清除");
             return ResponseEntity.ok(response);
         } 
-        catch (Exception e) {
+        catch (Exception e) 
+        {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "清除搜索历史失败: " + e.getMessage());
@@ -86,7 +88,8 @@ public class HotSearchController {
     public ResponseEntity<Map<String, Object>> getUserSearchHistoryWithTime(
             @RequestParam Long userId,
             @RequestParam(defaultValue = "10") int limit) {
-        try {
+        try 
+        {
             List<Map<String, Object>> history = hotSearchService.getUserSearchHistoryWithTime(userId, limit);
             
             Map<String, Object> response = new HashMap<>();

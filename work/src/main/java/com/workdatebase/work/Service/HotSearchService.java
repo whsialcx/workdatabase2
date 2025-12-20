@@ -45,7 +45,8 @@ public class HotSearchService
         redisTemplate.expire(HOT_SEARCH_KEY, HOT_SEARCH_EXPIRE_DAYS, TimeUnit.DAYS);
     }
     // 个人
-    private void recordUserSearchHistory(Long userId, String keyword) {
+    private void recordUserSearchHistory(Long userId, String keyword) 
+    {
         String userKey = SEARCH_HISTORY_PREFIX + userId;
         // 使用列表存储用户搜索历史，最新的在前面
         redisTemplate.opsForList().leftPush(userKey, keyword);
@@ -77,8 +78,10 @@ public class HotSearchService
         List<Object> history = redisTemplate.opsForList().range(userKey, 0, limit - 1);
         
         List<String> result = new ArrayList<>();
-        if (history != null) {
-            for (Object item : history) {
+        if (history != null) 
+        {
+            for (Object item : history) 
+            {
                 result.add(item.toString());
             }
         }
@@ -104,9 +107,11 @@ public class HotSearchService
         List<Object> history = redisTemplate.opsForList().range(userKey, 0, limit - 1);
         
         List<Map<String, Object>> result = new ArrayList<>();
-        if (history != null) {
-            // 由于Redis列表只存储关键词，没有时间戳，我们使用索引来模拟时间顺序
-            for (int i = 0; i < history.size(); i++) {
+        if (history != null) 
+        {
+            // 由于Redis列表只存储关键词，使用索引来模拟时间顺序
+            for (int i = 0; i < history.size(); i++) 
+            {
                 Map<String, Object> historyItem = new HashMap<>();
                 historyItem.put("id", i + 1); // 使用索引作为ID
                 historyItem.put("keyword", history.get(i).toString());
@@ -116,7 +121,4 @@ public class HotSearchService
         }
         return result;
     }
-
-
-
 }

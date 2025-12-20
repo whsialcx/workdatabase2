@@ -32,13 +32,16 @@ public class AdminSubmissionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
-        try {
+        try 
+        {
             Pageable pageable = PageRequest.of(page, size, Sort.by("submitTime").descending());
             Page<com.workdatebase.work.entity.BookSubmission> submissions;
-            
-            if (status != null) {
+            if (status != null) 
+            {
                 submissions = submissionService.getSubmissionsByStatus(status, pageable);
-            } else {
+            } 
+            else 
+            {
                 submissions = submissionService.getAllSubmissions(pageable);
             }
             
@@ -51,7 +54,9 @@ public class AdminSubmissionController {
             
             return ResponseEntity.ok(response);
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "获取提交记录失败: " + e.getMessage());
@@ -76,10 +81,8 @@ public class AdminSubmissionController {
             try {
                 // 先尝试解析为数字ID
                 adminId = Long.parseLong(adminIdentifier);
-            } catch (NumberFormatException e) {
-                // 如果不是数字，根据用户名查询管理员ID
-                // 这里需要实现根据用户名查询用户ID的逻辑
-                // 临时方案：使用默认管理员ID
+            } 
+            catch (NumberFormatException e) {
                 System.out.println("adminIdentifier不是数字，使用默认管理员ID");
                 adminId = 1L; // 临时使用默认ID
             }
@@ -87,7 +90,8 @@ public class AdminSubmissionController {
             Map<String, Object> result = submissionService.reviewSubmission(submissionId, adminId, approved, comment);
             return ResponseEntity.ok(result);
             
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("审核过程中出错: " + e.getMessage());
             e.printStackTrace();
             
@@ -103,14 +107,12 @@ public class AdminSubmissionController {
     public ResponseEntity<Map<String, Object>> getPendingCount() {
         try {
             long count = submissionService.getPendingCount();
-            
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("pendingCount", count);
-            
-            return ResponseEntity.ok(response);
-            
-        } catch (Exception e) {
+            return ResponseEntity.ok(response);    
+        } 
+        catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "获取待审核数量失败: " + e.getMessage());
