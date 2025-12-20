@@ -47,8 +47,10 @@ public class AdminManagementController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            if (!userRepository.existsById(id)) {
+        try 
+        {
+            if (!userRepository.existsById(id)) 
+            {
                 response.put("success", false);
                 response.put("message", "用户不存在");
                 return ResponseEntity.badRequest().body(response);
@@ -58,7 +60,9 @@ public class AdminManagementController {
             response.put("success", true);
             response.put("message", "用户删除成功");
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             response.put("success", false);
             response.put("message", "删除失败: " + e.getMessage());
             return ResponseEntity.status(500).body(response);

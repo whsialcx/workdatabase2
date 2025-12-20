@@ -211,19 +211,22 @@ public class AuthService {
 
             VerificationToken verificationToken = tokenOpt.get();
             
-            if (verificationToken.getUsed()) {
+            if (verificationToken.getUsed()) 
+            {
                 result.put("success", false);
                 result.put("message", "该令牌已被使用");
                 return result;
             }
 
-            if (verificationToken.isExpired()) {
+            if (verificationToken.isExpired()) 
+            {
                 result.put("success", false);
                 result.put("message", "验证令牌已过期");
                 return result;
             }
 
-            if (!"admin".equals(verificationToken.getUserType())) {
+            if (!"admin".equals(verificationToken.getUserType())) 
+            {
                 result.put("success", false);
                 result.put("message", "无效的用户类型");
                 return result;

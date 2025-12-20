@@ -25,12 +25,14 @@ public class FallbackEmailService {
     }
     
     public void sendDirectEmail(com.workdatebase.work.entity.EmailMessage message) {
-        try {
+        try 
+        {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(fromEmail);
             
             // 根据邮件类型设置不同的内容和收件人
-            switch (message.getEmailType()) {
+            switch (message.getEmailType()) 
+            {
                 case VERIFICATION_REQUEST:
                     mailMessage.setTo(adminEmail);
                     mailMessage.setSubject("管理员注册申请确认");
@@ -81,7 +83,8 @@ public class FallbackEmailService {
             
             mailSender.send(mailMessage);
             logger.info("降级邮件发送成功: {}", message.getEmailType());
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             logger.error("降级邮件发送失败: {}", e.getMessage());
         }
     }

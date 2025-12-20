@@ -355,7 +355,8 @@ public class BookContentService {
     }
     
     private String getFileNameFromPath(String filePath) {
-        if (filePath == null) return null;
+        if (filePath == null) 
+        return null;
         return Paths.get(filePath).getFileName().toString();
     }
 }
