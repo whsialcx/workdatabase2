@@ -133,11 +133,47 @@ function loadBookDetail(bookId) {
         });
 }
 
+function viewAuthorDetail(authorName) {
+    if (!authorName || authorName === '未知作者') {
+        alert('作者信息不可用');
+        return;
+    }
+    
+    // 先查询作者是否存在
+    fetch(`/api/authors/search/name?name=${encodeURIComponent(authorName)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.exists && data.author.id) {
+                    // 作者存在，跳转到作者详情页
+                    window.location.href = `/authordetail?id=${data.author.id}`;
+                } else {
+                    // 作者不存在，跳转到默认作者页并传递作者姓名
+                    window.location.href = `/authordetail?name=${encodeURIComponent(authorName)}`;
+                }
+            } else {
+                alert('查询作者失败: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('查询作者失败:', error);
+            // 如果查询失败，也跳转到默认页面
+            window.location.href = `/authordetail?name=${encodeURIComponent(authorName)}`;
+        });
+}
+
 // 显示图书详情
 function displayBookDetail(book) {
     // 基础信息
     document.getElementById('bookTitle').textContent = book.title || '未知标题';
-    document.getElementById('bookAuthor').textContent = book.author || '未知作者';
+    // document.getElementById('bookAuthor').textContent = book.author || '未知作者';
+
+    document.getElementById('bookAuthor').innerHTML = `
+        <a href="#" onclick="viewAuthorDetail('${book.author || '未知作者'}'); return false;" 
+        style="color: #3498db; text-decoration: none; cursor: pointer;">
+            ${book.author || '未知作者'}
+        </a>
+    `;
     document.getElementById('bookCategory').textContent = book.category || '未分类';
     document.getElementById('bookLocation').textContent = book.location || '未知位置';
     document.getElementById('availableCount').textContent = book.availableCount || 0;

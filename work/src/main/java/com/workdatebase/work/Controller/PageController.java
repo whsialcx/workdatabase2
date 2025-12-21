@@ -140,6 +140,11 @@ public class PageController {
     public String getMethodName() {
         return "readbook";
     }
-    
+
+    @GetMapping("/authordetail")
+    public String authorDetail() {
+        return "authordetail.html";
+    }
+        
     
 }

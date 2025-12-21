@@ -36,4 +36,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // 按类别搜索方法
     @Query("SELECT b FROM Book b WHERE LOWER(b.category) LIKE LOWER(CONCAT('%', :category, '%'))")
     Page<Book> findByCategoryContainingIgnoreCase(@Param("category") String category, Pageable pageable);
+    // 根据作者姓名统计书籍数量
+    long countByAuthor(String author);
+
+    // 根据作者姓名获取书籍列表
+    List<Book> findByAuthor(String author);
+    
+    // 根据作者姓名模糊查询（包含搜索）
+    List<Book> findByAuthorContaining(String author);
 }
