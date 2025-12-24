@@ -1,4 +1,3 @@
-// AuthorController.java
 package com.workdatebase.work.Controller;
 
 import com.workdatebase.work.Service.AuthorService;

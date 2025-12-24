@@ -1,4 +1,3 @@
-// Author.java
 package com.workdatebase.work.entity;
 
 import jakarta.persistence.*;

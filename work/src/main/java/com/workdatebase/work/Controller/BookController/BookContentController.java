@@ -1,4 +1,3 @@
-// BookContentController.java
 package com.workdatebase.work.Controller.BookController;
 
 import com.workdatebase.work.Service.BookContentService;

@@ -1,4 +1,3 @@
-// BookContent.java - 完整实体类
 package com.workdatebase.work.entity;
 
 import jakarta.persistence.*;

@@ -1,4 +1,3 @@
-// BookContentRepository.java
 package com.workdatebase.work.repository;
 
 import com.workdatebase.work.entity.BookContent;

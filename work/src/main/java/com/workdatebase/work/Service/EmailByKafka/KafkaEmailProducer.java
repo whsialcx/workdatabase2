@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.workdatebase.work.entity.EmailMessage;
 @Service
 public class KafkaEmailProducer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaEmailProducer.class);

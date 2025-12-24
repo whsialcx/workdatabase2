@@ -13,7 +13,6 @@ public class KafkaEmailConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaEmailConsumer.class);
 
     private final JavaMailSender mailSender;
-    private final EmailService emailService;
 
     @Value("${app.verification.admin-email:3247365462@qq.com}")
     private String adminEmail;
